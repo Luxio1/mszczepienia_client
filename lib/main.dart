@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'helpers/mycolors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,9 +25,10 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: MyColors.blue
       ),
       home: const MyHomePage(title: 'mSzczepienia'),
+
     );
   }
 }
@@ -70,11 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      backgroundColor: MyColors.blue,
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -93,23 +93,113 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            SizedBox(
+              width: 300.0,
+              child: Column(
+                children:  <Widget>[
+                  const SizedBox(height: 50),
+                  Image.asset('assets/healthcare.png', width: 150.0),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "Zaloguj się",
+                    style: TextStyle(fontSize: 40, color: Colors.white),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      labelText: 'Email',
+                      fillColor: Colors.white,
+                      filled: true,
+                      contentPadding: const EdgeInsets.all(10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      labelText: 'Hasło',
+                      fillColor: Colors.white,
+                      filled: true,
+                      contentPadding: const EdgeInsets.all(10.0),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Jesteś nowym użytkownikiem? ",
+                        style: TextStyle(fontSize: 14, color: Colors.white54),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "myRoute");
+                        },
+                        child: const Text(
+                          "Załóż konto",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white24,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 14),
+                      shape: StadiumBorder()
+                    ),
+                      onPressed: () {},
+                      child: const Text("Zaloguj")
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Zapomniałeś hasła? ",
+                        style: TextStyle(fontSize: 14, color: Colors.white54),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "myRoute");
+                        },
+                        child: const Text(
+                          "Przypomnij hasło",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+
+                ],
+              ),
+            )
+
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
