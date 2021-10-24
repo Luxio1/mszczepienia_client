@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'helpers/mycolors.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -52,19 +55,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void dispose(){
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -108,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
@@ -115,12 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       labelText: 'Email',
                       fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.all(10.0),
+                      filled: true, contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
                     ),
                   ),
                   const SizedBox(height: 10),
                   TextField(
+                    controller: passwordController,
                     obscureText: true,
                     enableSuggestions: false,
                     autocorrect: false,
@@ -128,11 +128,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18.0),
+
                       ),
                       labelText: 'Hasło',
                       fillColor: Colors.white,
                       filled: true,
-                      contentPadding: const EdgeInsets.all(10.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -162,11 +163,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white24,
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 14),
+                      padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
                       shape: StadiumBorder()
                     ),
-                      onPressed: () {},
-                      child: const Text("Zaloguj")
+                      onPressed: ()  async {
+                        Map data = {
+                          'login': emailController.text,
+                          'password': passwordController.text
+                        };
+
+                        print('Email: ${emailController.text} Password: ${passwordController.text} ');
+                        final response = await http.post(Uri.parse('https://m-szczepienia.herokuapp.com/api/v1/auth/login'),
+                          headers: {"Content-Type": "application/json"},
+                          body: json.encode(data),
+
+                        );
+
+
+                        if(response.statusCode == 200){
+                          print('Success.');
+                        }
+                        else{
+                          print('Something went wrong :(');
+                        }
+                      },
+                      child: const Text("Zaloguj", style: TextStyle(fontSize: 14))
                   ),
                   const SizedBox(height: 20),
                   Row(
