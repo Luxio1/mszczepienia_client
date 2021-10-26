@@ -174,7 +174,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
                         print('Email: ${emailController.text} Password: ${passwordController.text} ');
                         final response = await http.post(Uri.parse('https://m-szczepienia.herokuapp.com/api/v1/auth/login'),
-                          headers: {"Content-Type": "application/json"},
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*",
+
+                          },
                           body: json.encode(data),
 
                         );
