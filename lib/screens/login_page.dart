@@ -2,20 +2,30 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mszczepienia_client/screens/screens.dart';
 
 import '../helpers/mycolors.dart';
 import 'package:http/http.dart' as http;
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+import 'package:provider/provider.dart';
+import '../models/models.dart';
 
-  final String title;
+class LoginPage extends StatefulWidget {
+  static MaterialPage page() {
+    return const MaterialPage(
+      name: '/login',
+      key: ValueKey('/login'),
+      child: LoginPage()
+    );
+  }
+
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -108,29 +118,32 @@ class _MyHomePageState extends State<MyHomePage> {
                           shape: const StadiumBorder()
                       ),
                       onPressed: ()  async {
-                        Map data = {
-                          'login': emailController.text,
-                          'password': passwordController.text
-                        };
-
-                        print('Email: ${emailController.text} Password: ${passwordController.text} ');
-                        final response = await http.post(Uri.parse('https://m-szczepienia.herokuapp.com/api/v1/auth/login'),
-                          headers: {
-                            "Content-Type": "application/json",
-                            "Access-Control-Allow-Origin": "*",
-
-                          },
-                          body: json.encode(data),
-
-                        );
-
-
-                        if(response.statusCode == 200){
-                          print('Success.');
-                        }
-                        else{
-                          print('Something went wrong :(');
-                        }
+                        Provider.of<AppStateManager>(context, listen: false).login('username', 'password'); //TODO: Hardcoded
+                        //TODO: Add logging in
+                        // Map data = {
+                        //   'login': emailController.text,
+                        //   'password': passwordController.text
+                        // };
+                        //
+                        // print('Email: ${emailController.text} Password: ${passwordController.text} ');
+                        // final response = await http.post(Uri.parse('https://m-szczepienia.herokuapp.com/api/v1/auth/login'),
+                        //   headers: {
+                        //     "Content-Type": "application/json",
+                        //     "Access-Control-Allow-Origin": "*",
+                        //
+                        //   },
+                        //   body: json.encode(data),
+                        //
+                        // );
+                        //
+                        //
+                        // if(response.statusCode == 200){
+                        //   print('Success.');
+                        //
+                        // }
+                        // else{
+                        //   print('Something went wrong :(');
+                        // }
                       },
                       child: const Text("Zaloguj", style: TextStyle(fontSize: 14))
                   ),
