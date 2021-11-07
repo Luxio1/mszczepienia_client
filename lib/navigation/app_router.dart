@@ -35,7 +35,8 @@ class AppRouter extends RouterDelegate
       pages: [
         if(!appStateManager.isInitialized) SplashScreen.page(),
         if(appStateManager.isInitialized && !appStateManager.isLoggedIn) LoginPage.page(),
-        if(appStateManager.isInitialized && appStateManager.isLoggedIn) Home.page(appStateManager.getSelectedTab)
+        if(appStateManager.isInitialized && appStateManager.isLoggedIn) Home.page(appStateManager.getSelectedTab),
+        if(appStateManager.getSelectedTab == AppStates.history)  RegisterPage.page()
       ],
     );
   }
