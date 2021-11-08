@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mszczepienia_client/helpers/mycolors.dart';
 import 'package:provider/provider.dart';
 
 import '../models/models.dart';
@@ -41,12 +42,9 @@ class _HomeState extends State<Home> {
           child,) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(
+            title: const Text(
               'mSzczepienia',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headline6,
+              style: TextStyle(color: Colors.white),
             ),
             actions: [
               profileButton(),
@@ -87,7 +85,8 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.green, //TODO: change color, add icon
         ),
         onTap: () {
-          //TODO: home -> profile
+          Provider.of<ProfileManager>(context, listen: false)
+              .tapOnProfile(true);
         },
       ),
     );

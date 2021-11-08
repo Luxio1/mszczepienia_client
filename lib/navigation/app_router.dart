@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mszczepienia_client/screens/profile_screen.dart';
 import '../models/models.dart';
 import '../screens/screens.dart';
 
@@ -35,7 +36,8 @@ class AppRouter extends RouterDelegate
       pages: [
         if(!appStateManager.isInitialized) SplashScreen.page(),
         if(appStateManager.isInitialized && !appStateManager.isLoggedIn) LoginPage.page(),
-        if(appStateManager.isInitialized && appStateManager.isLoggedIn) Home.page(appStateManager.getSelectedTab)
+        if(appStateManager.isInitialized && appStateManager.isLoggedIn) Home.page(appStateManager.getSelectedTab),
+        if(profileManager.didSelectUser) ProfileScreen.page(profileManager.getUser),
       ],
     );
   }
