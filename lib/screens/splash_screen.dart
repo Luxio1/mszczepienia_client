@@ -6,10 +6,10 @@ import '../models/models.dart';
 class SplashScreen extends StatefulWidget {
 
   static MaterialPage page() {
-    return const MaterialPage(
-      name: '/',
-      key: ValueKey('/'),
-      child: SplashScreen(),
+    return MaterialPage(
+      name: Pages.splashScreenPath,
+      key: ValueKey(Pages.splashScreenPath),
+      child: const SplashScreen(),
     );
   }
 

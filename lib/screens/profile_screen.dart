@@ -7,8 +7,8 @@ import '../models/models.dart';
 class ProfileScreen extends StatefulWidget {
   static MaterialPage page(User user) {
     return MaterialPage(
-      name: '/profile',
-      key: const ValueKey('/profile'),
+      name: Pages.userProfilePath,
+      key: ValueKey(Pages.userProfilePath),
       child: ProfileScreen(user: user),
     );
   }

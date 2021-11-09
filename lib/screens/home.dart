@@ -8,8 +8,8 @@ import 'screens.dart';
 class Home extends StatefulWidget {
   static MaterialPage page(int currentTab) {
     return MaterialPage(
-      name: '/home',
-      key: const ValueKey('/home'),
+      name: Pages.homePath,
+      key: ValueKey(Pages.homePath),
       child: Home(
         currentTab: currentTab,
       ),

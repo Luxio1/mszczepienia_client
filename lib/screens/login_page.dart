@@ -13,10 +13,10 @@ import '../models/models.dart';
 
 class LoginPage extends StatefulWidget {
   static MaterialPage page() {
-    return const MaterialPage(
-      name: '/login',
-      key: ValueKey('/login'),
-      child: LoginPage()
+    return MaterialPage(
+      name: Pages.loginPath,
+      key: ValueKey(Pages.loginPath),
+      child: const LoginPage()
     );
   }
 
