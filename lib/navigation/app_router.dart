@@ -9,22 +9,25 @@ class AppRouter extends RouterDelegate
   final GlobalKey<NavigatorState> navigatorKey;
 
   final AppStateManager appStateManager;
-
   final ProfileManager profileManager;
+  final RegistrationManager registrationManager;
 
   AppRouter({
     required this.appStateManager,
-    required this.profileManager
+    required this.profileManager,
+    required this.registrationManager,
   })
       :navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     profileManager.addListener(notifyListeners);
+    registrationManager.addListener(notifyListeners);
   }
 
   @override
   void dispose() {
     appStateManager.removeListener(notifyListeners);
     profileManager.removeListener(notifyListeners);
+    registrationManager.removeListener(notifyListeners);
     super.dispose();
   }
 
@@ -37,8 +40,11 @@ class AppRouter extends RouterDelegate
         if(!appStateManager.isInitialized) SplashScreen.page(),
         if(appStateManager.isInitialized && !appStateManager.isLoggedIn) LoginPage.page(),
         if(appStateManager.isInitialized && appStateManager.isLoggedIn) Home.page(appStateManager.getSelectedTab),
-        if(appStateManager.getSelectedTab == AppStates.history)  RegisterPage.page(),
+
         if(profileManager.didSelectUser) ProfileScreen.page(profileManager.getUser),
+
+        if(registrationManager.isRegistrationClicked) RegisterPage.page()
+
       ],
     );
   }
@@ -48,6 +54,16 @@ class AppRouter extends RouterDelegate
     if (!route.didPop(result)) {
       return false;
     }
+
+    if(route.settings.name == Pages.registerPath){
+      registrationManager.tapOnRegister(false);
+    }
+    
+    
+    if(route.settings.name == Pages.userProfilePath){
+      profileManager.tapOnProfile(false);
+    }
+
 
   return true;
 }

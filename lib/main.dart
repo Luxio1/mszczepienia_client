@@ -23,13 +23,16 @@ class _AppState extends State<MyApp> {
 
   final _appStateManager = AppStateManager();
   final _profileManager = ProfileManager();
+  final _registrationManager = RegistrationManager();
+
   late AppRouter _appRouter;
 
   @override
   void initState() {
     _appRouter = AppRouter(
         appStateManager: _appStateManager,
-        profileManager: _profileManager
+        profileManager: _profileManager,
+      registrationManager: _registrationManager,
     );
     super.initState();
   }
@@ -40,6 +43,7 @@ class _AppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider(create: (context) => _appStateManager),
           ChangeNotifierProvider(create: (context) => _profileManager),
+          ChangeNotifierProvider(create: (context) => _registrationManager),
         ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {
@@ -47,7 +51,7 @@ class _AppState extends State<MyApp> {
             title: 'mSzczepienia',
             home: Router(
               routerDelegate: _appRouter,
-              //TODO: Add backButtonDispatcher
+              backButtonDispatcher: RootBackButtonDispatcher(),
             ),
           );
         },

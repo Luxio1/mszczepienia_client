@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                         GestureDetector(
                           onTap: () {
                             log("Tap.");
-                            Provider.of<AppStateManager>(context, listen: false).goToHistory();
+                            Provider.of<RegistrationManager>(context, listen: false).tapOnRegister(true);
                           },
                           child: const Text(
                             "Załóż konto",

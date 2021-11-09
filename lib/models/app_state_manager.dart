@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 class AppStates {
   static const int yourAppointments = 0;
   static const int history = 1;
-  static const int profile = 2;
-  static const int register= 3;
 }
 
 class AppStateManager extends ChangeNotifier {
@@ -43,11 +41,6 @@ class AppStateManager extends ChangeNotifier {
   void goToHistory() {
     log("go to history.");
     _selectedTab = AppStates.history;
-    notifyListeners();
-  }
-  void goToRegister() {
-    log("ERERRRRR");
-    _selectedTab = AppStates.register;
     notifyListeners();
   }
 
