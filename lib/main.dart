@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mszczepienia_client/models/appointments_manager.dart';
 import 'package:provider/provider.dart';
 import 'helpers/mycolors.dart';
 import 'models/models.dart';
@@ -24,15 +25,17 @@ class _AppState extends State<MyApp> {
   final _appStateManager = AppStateManager();
   final _profileManager = ProfileManager();
   final _registrationManager = RegistrationManager();
+  final _appointmentsManager = AppointmentsManager();
 
   late AppRouter _appRouter;
 
   @override
   void initState() {
     _appRouter = AppRouter(
-        appStateManager: _appStateManager,
-        profileManager: _profileManager,
+      appStateManager: _appStateManager,
+      profileManager: _profileManager,
       registrationManager: _registrationManager,
+      appointmentsManager: _appointmentsManager,
     );
     super.initState();
   }
@@ -44,6 +47,7 @@ class _AppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => _appStateManager),
           ChangeNotifierProvider(create: (context) => _profileManager),
           ChangeNotifierProvider(create: (context) => _registrationManager),
+          ChangeNotifierProvider(create: (context) => _appointmentsManager),
         ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {

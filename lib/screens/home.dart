@@ -46,16 +46,16 @@ class _HomeState extends State<Home> {
               'mSzczepienia',
               style: TextStyle(color: Colors.white),
             ),
+            backgroundColor: MyColors.blue,
+            elevation: 0,
             actions: [
               profileButton(),
             ],
           ),
           body: IndexedStack(index: widget.currentTab, children: pages),
           bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: Theme
-                .of(context)
-                .textSelectionTheme
-                .selectionColor,
+            backgroundColor: MyColors.blue,
+            selectedItemColor: Colors.white,
             currentIndex: widget.currentTab,
             onTap: (index) {
               Provider.of<AppStateManager>(context, listen: false)
@@ -82,7 +82,11 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.only(right: 16.0),
       child: GestureDetector(
         child: const CircleAvatar(
-          backgroundColor: Colors.green, //TODO: change color, add icon
+          child: Icon(
+              Icons.account_circle,
+            size: 30.0,
+          ),
+          backgroundColor: MyColors.lightBlue,
         ),
         onTap: () {
           Provider.of<ProfileManager>(context, listen: false)
