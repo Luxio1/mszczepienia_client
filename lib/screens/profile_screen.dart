@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../helpers/mycolors.dart';
 
 import '../models/models.dart';
 
@@ -30,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyColors.blue,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
@@ -38,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
       ),
+      backgroundColor: MyColors.blue,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,7 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return ListView(
       children: [
         ListTile(
-          title: const Text('logout'),
+          title: const Text('Wyloguj',
+          style: TextStyle(color: Colors.white),),
           onTap: () {
             Provider.of<ProfileManager>(context, listen: false)
                 .tapOnProfile(false);
@@ -73,11 +77,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Text(
           widget.user.firstName,
-          style: const TextStyle(fontSize: 21),
+          style: const TextStyle(fontSize: 21, color: Colors.white),
         ),
         Text(
           widget.user.lastName,
-          style: const TextStyle(fontSize: 21),
+          style: const TextStyle(fontSize: 21, color: Colors.white),
         )
       ],
     );

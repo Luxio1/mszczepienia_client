@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mszczepienia_client/helpers/mycolors.dart';
 import '../models/appointment.dart';
 import '../components/appointment_card.dart';
+import '../models/pages.dart';
 
 
 class AppointmentsHistory extends StatefulWidget {
 
   static MaterialPage page() {
-    return const MaterialPage(
-        name: '/history',
-        key: ValueKey('/history'),
-        child: AppointmentsHistory()
+    return MaterialPage(
+        name: Pages.appointmentsHistory,
+        key: ValueKey(Pages.appointmentsHistory),
+        child: const AppointmentsHistory()
     );
   }
 
@@ -30,6 +32,7 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyColors.blue,
         title: const Text('Historia szczepień'),
       ),
       body: _appointments != null ?
@@ -42,7 +45,11 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
             );
           }
       )
-          : const Text("Nie masz historii szczepień"),
+          : const Text(
+        "Nie masz historii szczepień",
+      style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: MyColors.blue,
     );
   }
 
