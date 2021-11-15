@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
 import '../models/pages.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 class NewAppointmentScreen extends StatefulWidget {
 
@@ -22,7 +23,54 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: MyColors.blue,);
+    return Scaffold(
+      backgroundColor: MyColors.blue,
+      body: Container(
+        margin: const EdgeInsets.symmetric(vertical: 50.0),
+        child: ResponsiveGridRow(
+            children: [
+              ResponsiveGridCol(
+                xs: 12,
+                lg: 6,
+                child: Container(
+                  margin: const EdgeInsets.all(20.0),
+                  height: 100,
+                  alignment: Alignment(0, 0),
+                  color: MyColors.lightBlue,
+                  child: Text("Szepionka COVID-19"),
+                ),
+
+              ),
+              ResponsiveGridCol(
+                xs: 12,
+                lg: 6,
+                child: Container(
+                  margin: const EdgeInsets.all(20.0),
+                  height: 100,
+                  alignment: Alignment(0, 0),
+                  color: MyColors.lightBlue,
+                  child: Text("Szepionka COVID-20"),
+                ),
+
+              ),
+              ResponsiveGridCol(
+                xs: 12,
+                lg: 6,
+                child: Container(
+                  margin: const EdgeInsets.all(20.0),
+                  height: 100,
+                  alignment: Alignment(0, 0),
+                  color: MyColors.lightBlue,
+                  child: Text("Szepionka COVID-21"),
+                ),
+
+              ),
+
+            ]
+        )
+      ),
+    );
+
   }
 
 }
