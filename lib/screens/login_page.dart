@@ -29,6 +29,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+  GlobalKey<ScaffoldMessengerState>();
+
+  void showSnack(String title) {
+    final snackbar = SnackBar(
+        content: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        ));
+    scaffoldMessengerKey.currentState!.showSnackBar(snackbar);
+  }
 
   @override
   void dispose(){
@@ -124,32 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                             shape: const StadiumBorder()
                         ),
                         onPressed: ()  async {
-                          Provider.of<AppStateManager>(context, listen: false).login('username', 'password'); //TODO: Hardcoded
-                          //TODO: Add logging in
-                          // Map data = {
-                          //   'login': emailController.text,
-                          //   'password': passwordController.text
-                          // };
-                          //
-                          // print('Email: ${emailController.text} Password: ${passwordController.text} ');
-                          // final response = await http.post(Uri.parse('https://m-szczepienia.herokuapp.com/api/v1/auth/login'),
-                          //   headers: {
-                          //     "Content-Type": "application/json",
-                          //     "Access-Control-Allow-Origin": "*",
-                          //
-                          //   },
-                          //   body: json.encode(data),
-                          //
-                          // );
-                          //
-                          //
-                          // if(response.statusCode == 200){
-                          //   print('Success.');
-                          //
-                          // }
-                          // else{
-                          //   print('Something went wrong :(');
-                          // }
+                          Provider.of<AppStateManager>(context, listen: false).login(emailController.text, passwordController.text);
+                          //TODO: Check login() response
                         },
                         child: const Text("Zaloguj", style: TextStyle(fontSize: 14))
                     ),

@@ -26,11 +26,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final nameController = TextEditingController();
+  final surnameController = TextEditingController();
+  final idController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   void dispose(){
+    nameController.dispose();
+    surnameController.dispose();
+    idController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -61,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 20),
                     TextField(
                       autofocus: false,
-                      controller: emailController,
+                      controller: nameController,
                       decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: OutlineInputBorder(
@@ -75,8 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 10),
                     TextField(
                       autofocus: false,
-                      controller: passwordController,
-                      obscureText: true,
+                      controller: surnameController,
                       enableSuggestions: false,
                       autocorrect: false,
                       decoration: InputDecoration(
@@ -94,8 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 10),
                     TextField(
                       autofocus: false,
-                      controller: passwordController,
-                      obscureText: true,
+                      controller: idController,
                       enableSuggestions: false,
                       autocorrect: false,
                       decoration: InputDecoration(
@@ -113,8 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 10),
                     TextField(
                       autofocus: false,
-                      controller: passwordController,
-                      obscureText: true,
+                      controller: emailController,
                       enableSuggestions: false,
                       autocorrect: false,
                       decoration: InputDecoration(
@@ -156,32 +159,15 @@ class _RegisterPageState extends State<RegisterPage> {
                             shape: const StadiumBorder()
                         ),
                         onPressed: ()  async {
-                          //Provider.of<AppStateManager>(context, listen: false).login('username', 'password'); //TODO: Hardcoded
-                          //TODO: Add register
-                          // Map data = {
-                          //   'login': emailController.text,
-                          //   'password': passwordController.text
-                          // };
-                          //
-                          // print('Email: ${emailController.text} Password: ${passwordController.text} ');
-                          // final response = await http.post(Uri.parse('https://m-szczepienia.herokuapp.com/api/v1/auth/login'),
-                          //   headers: {
-                          //     "Content-Type": "application/json",
-                          //     "Access-Control-Allow-Origin": "*",
-                          //
-                          //   },
-                          //   body: json.encode(data),
-                          //
-                          // );
-                          //
-                          //
-                          // if(response.statusCode == 200){
-                          //   print('Success.');
-                          //
-                          // }
-                          // else{
-                          //   print('Something went wrong :(');
-                          // }
+                          Provider.of<AppStateManager>(context, listen: false).register(
+                            nameController.text,
+                            surnameController.text,
+                            idController.text,
+                            emailController.text,
+                            passwordController.text
+                          );
+
+                          //TODO: Check resister() response
                         },
                         child: const Text("Załóż konto", style: TextStyle(fontSize: 14))
                     ),
