@@ -10,6 +10,8 @@ const _registerURL = _base + "auth/register";
 
 class APIService{
 
+
+
   static Future<Profile?> login(String email, String password) async{
     Map data = {
       'email': email,
@@ -36,15 +38,8 @@ class APIService{
       );
 
       if(user_response.statusCode == 200) {
-        List<dynamic> users_json = json.decode(user_response.body);
 
-        List<User> users = [];
-
-        for(var user_json in users_json){
-          User user = User.fromJson(user_json);
-          users.add(user);
-        }
-
+        List<User> users = getUsersFromResponse(user_response);
         Profile profile = Profile.fromJson(profile_data_json, users);
 
         return profile;
@@ -79,11 +74,19 @@ class APIService{
     return false;
   }
 
-  // static Future<bool> getUserData(String email) {
-  //   final response = http.get(Uri.parse(_base + "patient?email=" + email)),
-  //   headers: {
-  //    "authorization": "Bearer " +
-  //   };
-  //}
+
+  static List<User> getUsersFromResponse(http.Response response) {
+    List<dynamic> users_json = json.decode(response.body);
+
+    List<User> users = [];
+
+    for(var user_json in users_json){
+      User user = User.fromJson(user_json);
+      users.add(user);
+    }
+    return users;
+  }
+
+
 
 }
