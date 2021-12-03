@@ -35,20 +35,21 @@ class APIService{
           }
       );
 
-      List<dynamic> users_json = json.decode(user_response.body);
+      if(user_response.statusCode == 200) {
+        List<dynamic> users_json = json.decode(user_response.body);
 
-      List<User> users = [];
+        List<User> users = [];
 
-      for(var user_json in users_json){
-        User user = User.fromJson(user_json);
-        users.add(user);
+        for(var user_json in users_json){
+          User user = User.fromJson(user_json);
+          users.add(user);
+        }
+
+        Profile profile = Profile.fromJson(profile_data_json, users);
+
+        return profile;
       }
-
-      Profile profile = Profile.fromJson(profile_data_json, users);
-
-      return profile;
     }
-
     return null;
   }
 
