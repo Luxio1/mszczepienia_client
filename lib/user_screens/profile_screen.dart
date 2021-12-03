@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../helpers/mycolors.dart';
 
 import '../models/models.dart';
-
+import '../managers/managers.dart';
 
 class ProfileScreen extends StatefulWidget {
   static MaterialPage page(Profile profile) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'models.dart';
+import '../models/models.dart';
 
 class RegistrationManager extends ChangeNotifier {
   bool get isRegistrationClicked => _isRegistrationClicked;

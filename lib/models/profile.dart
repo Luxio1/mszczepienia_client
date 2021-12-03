@@ -6,7 +6,7 @@ class Profile {
   final String accessToken; //TODO: keep accessToken in flutter_secure_storage for better safery
   final List<dynamic> roles;
 
-  List<User> users;
+  List<Patient> users;
 
   Profile({
     required this.id,
@@ -16,7 +16,7 @@ class Profile {
     required this.users,
   });
 
-  factory Profile.fromJson(Map<String, dynamic> json, List<User> users) {
+  factory Profile.fromJson(Map<String, dynamic> json, List<Patient> users) {
     return Profile(
       id: json['id'] as int,
       email: json['email'] as String,

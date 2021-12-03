@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
+import '../managers/managers.dart';
 
 class SplashScreen extends StatefulWidget {
 

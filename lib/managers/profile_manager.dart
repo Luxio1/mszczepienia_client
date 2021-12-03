@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'models.dart';
+import '../models/models.dart';
 import '../services/api_service.dart';
 
 class ProfileManager extends ChangeNotifier {
@@ -21,7 +21,7 @@ class ProfileManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUser(User user){
+  void setUser(Patient user){
     user = user;
   }
 

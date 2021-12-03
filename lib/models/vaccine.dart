@@ -1,0 +1,3 @@
+class Vaccine {
+  //TODO: implement
+}

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
-import 'package:mszczepienia_client/models/appointments_manager.dart';
+import 'package:mszczepienia_client/managers/visits_manager.dart';
 import 'package:provider/provider.dart';
 import '../models/pages.dart';
 import '../models/models.dart';
+import '../managers/managers.dart';
 
 
 class YourAppointments extends StatefulWidget {
@@ -25,7 +26,7 @@ class YourAppointments extends StatefulWidget {
 
 class _YourAppointmentsState extends State<YourAppointments> {
 
-  List<Appointment>? _appointments ;
+  List<Visit>? _appointments ;
 
 
 
@@ -41,7 +42,7 @@ class _YourAppointmentsState extends State<YourAppointments> {
         itemCount: _appointments!.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(_appointments![index].type),
+            title: Text(_appointments![index].id.toString()),
             //TODO: add details view after click
           );
         }
@@ -60,7 +61,7 @@ class _YourAppointmentsState extends State<YourAppointments> {
       child: GestureDetector(
         child: RawMaterialButton(
           onPressed: () {
-            Provider.of<AppointmentsManager>(context, listen: false)
+            Provider.of<VisitsManager>(context, listen: false)
                 .tapOnCreateNewItem(true);
           },
           fillColor: MyColors.lightBlue,

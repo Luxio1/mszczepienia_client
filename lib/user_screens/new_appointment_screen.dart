@@ -4,6 +4,7 @@ import '../models/pages.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
+import '../managers/managers.dart';
 
 class NewAppointmentScreen extends StatefulWidget {
 
@@ -31,7 +32,7 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            Provider.of<AppointmentsManager>(context, listen: false)
+            Provider.of<VisitsManager>(context, listen: false)
                 .tapOnCreateNewItem(false);
           },
         ),

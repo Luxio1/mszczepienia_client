@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:mszczepienia_client/models/models.dart';
-import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
 const _base = "https://m-szczepienia.herokuapp.com/api/v1/";
@@ -39,7 +38,7 @@ class APIService{
 
       if(user_response.statusCode == 200) {
 
-        List<User> users = getUsersFromResponse(user_response);
+        List<Patient> users = getUsersFromResponse(user_response);
         Profile profile = Profile.fromJson(profile_data_json, users);
 
         return profile;
@@ -75,18 +74,17 @@ class APIService{
   }
 
 
-  static List<User> getUsersFromResponse(http.Response response) {
-    List<dynamic> users_json = json.decode(response.body);
+  static List<Patient> getUsersFromResponse(http.Response response) {
+    List<dynamic> usersJson = json.decode(response.body);
 
-    List<User> users = [];
+    List<Patient> users = [];
 
-    for(var user_json in users_json){
-      User user = User.fromJson(user_json);
+    for(var userJson in usersJson){
+      Patient user = Patient.fromJson(userJson);
       users.add(user);
     }
     return users;
   }
-
 
 
 }

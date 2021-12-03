@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
 import '../models/models.dart';
+import '../managers/managers.dart';
 
 class RegisterPage extends StatefulWidget {
   static MaterialPage page() {

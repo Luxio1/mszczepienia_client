@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'appointment.dart';
+import '../models/visit.dart';
 
-class AppointmentsManager extends ChangeNotifier {
+class VisitsManager extends ChangeNotifier {
   bool _createNewItem = false;
 
   bool get isCreatingNewItem => _createNewItem;

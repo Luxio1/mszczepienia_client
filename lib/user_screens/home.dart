@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/models.dart';
 import 'screens.dart';
+import '../managers/managers.dart';
 
 class Home extends StatefulWidget {
   static MaterialPage page(int currentTab) {

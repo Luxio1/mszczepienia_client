@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mszczepienia_client/models/appointments_manager.dart';
+import 'package:mszczepienia_client/managers/visits_manager.dart';
 import '../user_screens/new_appointment_screen.dart';
 import '../user_screens/profile_screen.dart';
 import '../models/models.dart';
 import '../user_screens/screens.dart';
+import '../managers/managers.dart';
 
 class AppRouter extends RouterDelegate
   with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -13,7 +14,7 @@ class AppRouter extends RouterDelegate
   final AppStateManager appStateManager;
   final ProfileManager profileManager;
   final RegistrationManager registrationManager;
-  final AppointmentsManager appointmentsManager;
+  final VisitsManager appointmentsManager;
 
   AppRouter({
     required this.appStateManager,

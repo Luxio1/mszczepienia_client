@@ -1,0 +1,3 @@
+class Place {
+  //TODO: implement
+}

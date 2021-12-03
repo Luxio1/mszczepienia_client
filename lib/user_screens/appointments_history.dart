@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
-import '../models/appointment.dart';
-import '../components/appointment_card.dart';
+
+import '../models/visit.dart';
 import '../models/pages.dart';
+import '../managers/managers.dart';
 
 
 class AppointmentsHistory extends StatefulWidget {
@@ -24,7 +25,7 @@ class AppointmentsHistory extends StatefulWidget {
 
 class _AppointmentsHistoryState extends State<AppointmentsHistory> {
 
-  List<Appointment>? _appointments ;
+  List<Visit>? _visits ;
 
 
 
@@ -35,12 +36,12 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
         backgroundColor: MyColors.blue,
         title: const Text('Historia szczepień'),
       ),
-      body: _appointments != null ?
+      body: _visits != null ?
       ListView.builder(
-          itemCount: _appointments!.length,
+          itemCount: _visits!.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(_appointments![index].type),
+              title: Text(_visits![index].id.toString()),
               //TODO: add details view after click
             );
           }
