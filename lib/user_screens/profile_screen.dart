@@ -6,18 +6,18 @@ import '../models/models.dart';
 
 
 class ProfileScreen extends StatefulWidget {
-  static MaterialPage page(User user) {
+  static MaterialPage page(Profile profile) {
     return MaterialPage(
       name: Pages.userProfilePath,
       key: ValueKey(Pages.userProfilePath),
-      child: ProfileScreen(user: user),
+      child: ProfileScreen(profile: profile),
     );
   }
 
-  final User user;
+  final Profile profile;
   const ProfileScreen({
     Key? key,
-    required this.user
+    required this.profile
 }) : super(key: key);
 
   @override
@@ -66,6 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Provider.of<ProfileManager>(context, listen: false)
                 .tapOnProfile(false);
             Provider.of<AppStateManager>(context, listen: false).logout();
+            Provider.of<ProfileManager>(context, listen: false).logout();
           },
         )
       ],
@@ -76,13 +77,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       children: [
         Text(
-          widget.user.firstName,
+          widget.profile.email,
           style: const TextStyle(fontSize: 21, color: Colors.white),
         ),
         Text(
-          widget.user.lastName,
+          widget.profile.users[0].firstName,
           style: const TextStyle(fontSize: 21, color: Colors.white),
-        )
+        ),
+        Text(
+          widget.profile.users[0].lastName,
+          style: const TextStyle(fontSize: 21, color: Colors.white),
+        ),
+        Text(
+          widget.profile.users[0].pesel,
+          style: const TextStyle(fontSize: 21, color: Colors.white),
+        ),
       ],
     );
   }

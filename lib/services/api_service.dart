@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:mszczepienia_client/models/models.dart';
+import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
 const _base = "https://m-szczepienia.herokuapp.com/api/v1/";
 const _loginURL = _base + "auth/login";
 const _registerURL = _base + "auth/register";
+
 class APIService{
-  static Future<bool> login(String username, String password) async{
+
+  static Future<Profile?> login(String email, String password) async{
     Map data = {
-      'email': username,
+      'email': email,
       'password': password
     };
 
@@ -21,14 +25,34 @@ class APIService{
 
 
     if(response.statusCode == 200){
-      Map<String, dynamic> respData = jsonDecode(response.body);
-      log(respData['accessToken']);
+      final profile_data_json = json.decode(response.body);
 
-      return true;
+      String accessToken = profile_data_json['accessToken'];
+
+      final user_response = await http.get(Uri.parse(_base + "patient?email=" + email),
+          headers: {
+            "authorization": "Bearer " + accessToken,
+          }
+      );
+
+      List<dynamic> users_json = json.decode(user_response.body);
+
+      List<User> users = [];
+
+      for(var user_json in users_json){
+        User user = User.fromJson(user_json);
+        users.add(user);
+      }
+
+      Profile profile = Profile.fromJson(profile_data_json, users);
+
+      return profile;
     }
 
-    return false;
+    return null;
   }
+
+
 
   static Future<bool> register(String name, String surname, String id, String email, String password) async{
     Map data = {
@@ -45,11 +69,20 @@ class APIService{
         body: json.encode(data),
     );
 
+    log(response.body);
+
     if(response.statusCode == 200){
       return true;
     }
 
     return false;
-
   }
+
+  // static Future<bool> getUserData(String email) {
+  //   final response = http.get(Uri.parse(_base + "patient?email=" + email)),
+  //   headers: {
+  //    "authorization": "Bearer " +
+  //   };
+  //}
+
 }

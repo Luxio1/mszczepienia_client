@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'helpers/mycolors.dart';
 import 'models/models.dart';
 import 'navigation/app_router.dart';
-import 'screens/screens.dart';
+import '../user_screens/screens.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 void main() {
   runApp(
       const MyApp(),
@@ -39,6 +41,8 @@ class _AppState extends State<MyApp> {
     );
     super.initState();
   }
+
+  late final String jwt;
 
   @override
   Widget build(BuildContext context) {

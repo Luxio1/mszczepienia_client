@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mszczepienia_client/screens/screens.dart';
+import '../user_screens/screens.dart';
 
 import '../helpers/mycolors.dart';
 import 'package:http/http.dart' as http;
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             shape: const StadiumBorder()
                         ),
                         onPressed: ()  async {
-                          Provider.of<AppStateManager>(context, listen: false).login(emailController.text, passwordController.text);
+                          Provider.of<ProfileManager>(context, listen: false). login(emailController.text, passwordController.text);
                           //TODO: Check login() response
                         },
                         child: const Text("Zaloguj", style: TextStyle(fontSize: 14))

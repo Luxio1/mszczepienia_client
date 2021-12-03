@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mszczepienia_client/screens/screens.dart';
+import '../user_screens/screens.dart';
 
 import '../helpers/mycolors.dart';
 import 'package:http/http.dart' as http;
@@ -159,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             shape: const StadiumBorder()
                         ),
                         onPressed: ()  async {
-                          Provider.of<AppStateManager>(context, listen: false).register(
+                          Provider.of<ProfileManager>(context, listen: false).register(
                             nameController.text,
                             surnameController.text,
                             idController.text,

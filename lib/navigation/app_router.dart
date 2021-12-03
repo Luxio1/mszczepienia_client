@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mszczepienia_client/models/appointments_manager.dart';
-import 'package:mszczepienia_client/screens/new_appointment_screen.dart';
-import '../screens/profile_screen.dart';
+import '../user_screens/new_appointment_screen.dart';
+import '../user_screens/profile_screen.dart';
 import '../models/models.dart';
-import '../screens/screens.dart';
+import '../user_screens/screens.dart';
 
 class AppRouter extends RouterDelegate
   with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -45,11 +45,11 @@ class AppRouter extends RouterDelegate
       pages: [
         //appStateManager
         if(!appStateManager.isInitialized) SplashScreen.page(),
-        if(appStateManager.isInitialized && !appStateManager.isLoggedIn) LoginPage.page(),
-        if(appStateManager.isInitialized && appStateManager.isLoggedIn) Home.page(appStateManager.getSelectedTab),
+        if(appStateManager.isInitialized && !profileManager.isLoggedIn) LoginPage.page(),
+        if(appStateManager.isInitialized && profileManager.isLoggedIn) Home.page(appStateManager.getSelectedTab),
 
         //profileManager
-        if(profileManager.didSelectUser) ProfileScreen.page(profileManager.getUser),
+        if(profileManager.didSelectUser) ProfileScreen.page(profileManager.getProfile),
 
         //registrationManager
         if(registrationManager.isRegistrationClicked) RegisterPage.page(),
