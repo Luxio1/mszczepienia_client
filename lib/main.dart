@@ -7,7 +7,6 @@ import 'models/models.dart';
 import 'managers/managers.dart';
 import 'navigation/app_router.dart';
 import '../user_screens/screens.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(
@@ -43,7 +42,7 @@ class _AppState extends State<MyApp> {
     super.initState();
   }
 
-  late final String jwt;
+
 
   @override
   Widget build(BuildContext context) {

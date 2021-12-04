@@ -17,6 +17,7 @@ class Profile {
   });
 
   factory Profile.fromJson(Map<String, dynamic> json, List<Patient> users) {
+    //TODO: Try getting users attached to profile without users parameter
     return Profile(
       id: json['id'] as int,
       email: json['email'] as String,
