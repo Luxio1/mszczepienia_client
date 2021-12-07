@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
+import 'package:mszczepienia_client/services/api_service.dart';
 import '../models/pages.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,11 @@ class NewAppointmentScreen extends StatefulWidget {
 
 class _NewAppointmentState extends State<NewAppointmentScreen> {
 
+  final TextEditingController _cityFieldController = TextEditingController();
+  int _selectedCityId = 0;
+  int _selectedPlaceId = 0;
+  List<Place> _places = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,52 +45,62 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
         ),
       ),
       backgroundColor: MyColors.blue,
-      body: Container(
-          margin: const EdgeInsets.symmetric(vertical: 50.0),
-          child: ResponsiveGridRow(
-              children: [
-                ResponsiveGridCol(
-                  xs: 12,
-                  lg: 6,
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    height: 100,
-                    alignment: Alignment(0, 0),
-                    color: MyColors.lightBlue,
-                    child: Text("Szepionka COVID-19"),
-                  ),
+      body: Form(
+              child: Padding(padding: EdgeInsets.all(32.0),
+                child: Column (
+                  children: <Widget>[
+                    Text('Wprowadź miasto'),
+                    const SizedBox(height: 20),
+                    TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: this._cityFieldController,
+                        decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18.0),
 
+                            ),
+                            labelText: 'Hasło',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                        ),
+                      ),
+                      suggestionsCallback: (String pattern) async {
+                        String _enteredCity = _cityFieldController.text;
+                        List<City> cities = await APIService.getCitiesSuggestions(_enteredCity);
+
+                        return cities;
+                      },
+                      itemBuilder: (context, City suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.name),
+                        );
+                      }, onSuggestionSelected: (City suggestion) async {
+                        _selectedCityId = suggestion.id;
+                        _cityFieldController.text = suggestion.name;
+                        _places = await APIService.getPlacesSuggestions(_selectedCityId);
+                    },
+                    ),
+                    const SizedBox(height: 10),
+
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.white24,
+                            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                            shape: const StadiumBorder()
+                        ),
+                        onPressed: ()  async {
+                          //TODO: add visit reservation
+                          },
+                        child: const Text("Rezerwuj", style: TextStyle(fontSize: 14))
+                    ),
+                  ],
                 ),
-                ResponsiveGridCol(
-                  xs: 12,
-                  lg: 6,
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    height: 100,
-                    alignment: Alignment(0, 0),
-                    color: MyColors.lightBlue,
-                    child: Text("Szepionka COVID-20"),
-                  ),
-
-                ),
-                ResponsiveGridCol(
-                  xs: 12,
-                  lg: 6,
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    height: 100,
-                    alignment: Alignment(0, 0),
-                    color: MyColors.lightBlue,
-                    child: Text("Szepionka COVID-21"),
-                  ),
-
-                ),
-
-              ]
+              ),
           )
-      ),
     );
-
   }
 
 }
