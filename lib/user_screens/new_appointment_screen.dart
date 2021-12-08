@@ -54,8 +54,11 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
           },
         ),
       ),
+      resizeToAvoidBottomInset: true,
       backgroundColor: MyColors.blue,
-      body: Form(
+      body: SingleChildScrollView(
+        reverse: true,
+          child: Form(
               child: Padding(padding: EdgeInsets.all(32.0),
                 child: Column (
                   children: <Widget>[
@@ -198,6 +201,10 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
                         onPressed: ()  async {
                           //TODO: Check if fields are completed
                           Provider.of<VisitsManager>(context, listen: false).goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
+
+                          //TODO: remove
+                          DateTime date1 = DateTime(2021, 11, 04);
+                          APIService.getAvailableHours(date1, 1, 1);
                           },
                         child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14))
                     ),
@@ -205,6 +212,7 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
                 ),
               ),
           )
+    ),
     );
   }
 

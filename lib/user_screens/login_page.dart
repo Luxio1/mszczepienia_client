@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, "myRoute");
+                            //TODO: Add forgot password page
                           },
                           child: const Text(
                             "Przypomnij hasło",

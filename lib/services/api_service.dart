@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:intl/intl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mszczepienia_client/models/models.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -166,5 +167,28 @@ class APIService{
 
   }
 
+  static Future<List<String>> getAvailableHours(DateTime date, int placeId, int vaccineId) async {
+    String accessToken = await getAccessToken();
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+    final response = await http.get(Uri.parse(_base + "visit/find?date="
+        + formatter.format(date)
+        + "&placeId="
+        + placeId.toString()
+        + "&vaccineId="
+        + vaccineId.toString()),
+        headers: {
+          "authorization": "Bearer " + accessToken,
+        }
+    );
+
+    var responseJson = json.decode(response.body);
+
+    List<String> visitHours = responseJson['visitHours'];
+    print(visitHours); //TODO: remove
+
+    return Future.value(visitHours);
+
+  }
 
 }
