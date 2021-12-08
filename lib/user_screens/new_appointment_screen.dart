@@ -27,9 +27,19 @@ class NewAppointmentScreen extends StatefulWidget {
 class _NewAppointmentState extends State<NewAppointmentScreen> {
 
   final TextEditingController _cityFieldController = TextEditingController();
+  final TextEditingController _placeFieldController = TextEditingController();
+  final TextEditingController _diseaseFieldController = TextEditingController();
+  final TextEditingController _manufacturerFieldController = TextEditingController();
+
   int _selectedCityId = 0;
   int _selectedPlaceId = 0;
+  int _selectedDiseaseId = 0;
+  int _selectedVaccineId = 0;
+
+  List<Vaccine> _vaccines = [];
+  List<Manufacturer> _manufacutrers = [];
   List<Place> _places = [];
+  final List<Disease> _diseases = [];
 
   @override
   Widget build(BuildContext context) {
@@ -49,18 +59,83 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
               child: Padding(padding: EdgeInsets.all(32.0),
                 child: Column (
                   children: <Widget>[
-                    Text('Wprowadź miasto'),
                     const SizedBox(height: 20),
+                    const Text('Na co chcesz się zaszczepić?', style: TextStyle(color: Colors.white),),
+                    const SizedBox(height: 10),
                     TypeAheadField(
                       textFieldConfiguration: TextFieldConfiguration(
-                        controller: this._cityFieldController,
+                        controller: _diseaseFieldController,
                         decoration: InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18.0),
 
                             ),
-                            labelText: 'Hasło',
+                            labelText: 'Choroba',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                        ),
+                      ),
+                      suggestionsCallback: (String pattern) async {
+                        String _enteredDisease = _diseaseFieldController.text;
+                        List<Disease> diseases = await APIService.getDiseaseSuggestions(_enteredDisease);
+
+                        return diseases;
+                      },
+                      itemBuilder: (context, Disease suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.name),
+                        );
+                      }, onSuggestionSelected: (Disease suggestion) async {
+                      _selectedDiseaseId = suggestion.id;
+                      _diseaseFieldController.text = suggestion.name;
+                      _manufacutrers = await APIService.getManufacturerSuggestions(_selectedDiseaseId);
+                    },
+                    ),
+                    const SizedBox(height: 20),
+                    const Text('Wybierz producenta', style: TextStyle(color: Colors.white),),
+                    const SizedBox(height: 10),
+                    TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: _manufacturerFieldController,
+                        decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+
+                            ),
+                            labelText: 'Producent',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                        ),
+                      ),
+                      suggestionsCallback: (String pattern) {
+                        return _manufacutrers;
+                      },
+                      itemBuilder: (context, Manufacturer suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.name),
+                        );
+                      }, onSuggestionSelected: (Manufacturer suggestion) {
+                      _selectedVaccineId = suggestion.id;
+                      _manufacturerFieldController.text = suggestion.name;
+                    },
+                    ),
+                    const SizedBox(height: 20),
+                    const Text('Wprowadź miasto', style: TextStyle(color: Colors.white),),
+                    const SizedBox(height: 10),
+                    TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: _cityFieldController,
+                        decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+
+                            ),
+                            labelText: 'Wprowadź miasto',
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
@@ -80,10 +155,39 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
                         _selectedCityId = suggestion.id;
                         _cityFieldController.text = suggestion.name;
                         _places = await APIService.getPlacesSuggestions(_selectedCityId);
+                        _placeFieldController.clear();
                     },
                     ),
+                    const SizedBox(height: 20),
+                    const Text('Wybierz placówke', style: TextStyle(color: Colors.white),),
                     const SizedBox(height: 10),
+                    TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: this._placeFieldController,
+                        decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18.0),
 
+                            ),
+                            labelText: 'Wybierz placówke',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                        ),
+                      ),
+                      suggestionsCallback: (String pattern) {
+                        return _places;
+                      },
+                      itemBuilder: (context, Place suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.name),
+                        );
+                      }, onSuggestionSelected: (Place suggestion) {
+                      _selectedPlaceId = suggestion.id;
+                      _placeFieldController.text = suggestion.name;
+                    },
+                    ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -92,9 +196,10 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
                             shape: const StadiumBorder()
                         ),
                         onPressed: ()  async {
-                          //TODO: add visit reservation
+                          //TODO: Check if fields are completed
+                          Provider.of<VisitsManager>(context, listen: false).goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
                           },
-                        child: const Text("Rezerwuj", style: TextStyle(fontSize: 14))
+                        child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14))
                     ),
                   ],
                 ),

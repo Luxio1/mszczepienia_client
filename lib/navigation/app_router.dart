@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mszczepienia_client/managers/visits_manager.dart';
-import '../user_screens/new_appointment_screen.dart';
-import '../user_screens/profile_screen.dart';
 import '../models/models.dart';
 import '../user_screens/screens.dart';
 import '../managers/managers.dart';
@@ -14,19 +11,19 @@ class AppRouter extends RouterDelegate
   final AppStateManager appStateManager;
   final ProfileManager profileManager;
   final RegistrationManager registrationManager;
-  final VisitsManager appointmentsManager;
+  final VisitsManager visitsManager;
 
   AppRouter({
     required this.appStateManager,
     required this.profileManager,
     required this.registrationManager,
-    required this.appointmentsManager,
+    required this.visitsManager,
   })
       :navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     profileManager.addListener(notifyListeners);
     registrationManager.addListener(notifyListeners);
-    appointmentsManager.addListener(notifyListeners);
+    visitsManager.addListener(notifyListeners);
   }
 
   @override
@@ -34,7 +31,7 @@ class AppRouter extends RouterDelegate
     appStateManager.removeListener(notifyListeners);
     profileManager.removeListener(notifyListeners);
     registrationManager.removeListener(notifyListeners);
-    appointmentsManager.removeListener(notifyListeners);
+    visitsManager.removeListener(notifyListeners);
     super.dispose();
   }
 
@@ -56,7 +53,8 @@ class AppRouter extends RouterDelegate
         if(registrationManager.isRegistrationClicked) RegisterPage.page(),
 
         //appointmentsManager
-        if(appointmentsManager.isCreatingNewItem) NewAppointmentScreen.page(),
+        if(visitsManager.isCreatingNewItem && visitsManager.getCreatingItemState == NewVisitStates.placeScreen) NewAppointmentScreen.page(),
+        if(visitsManager.isCreatingNewItem && visitsManager.getCreatingItemState == NewVisitStates.datesScreen) NewAppointmentDatesScreen.page(),
 
       ],
     );
@@ -78,8 +76,10 @@ class AppRouter extends RouterDelegate
     }
 
     if(route.settings.name == Pages.newAppointment) {
-      appointmentsManager.tapOnCreateNewItem(false);
+      visitsManager.tapOnCreateNewItem(false);
     }
+
+    //TODO: add creating support for new item screen
 
 
   return true;

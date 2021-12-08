@@ -37,7 +37,7 @@ class _AppState extends State<MyApp> {
       appStateManager: _appStateManager,
       profileManager: _profileManager,
       registrationManager: _registrationManager,
-      appointmentsManager: _appointmentsManager,
+      visitsManager: _appointmentsManager,
     );
     super.initState();
   }

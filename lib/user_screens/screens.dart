@@ -4,3 +4,6 @@ export 'appointments_history.dart';
 export 'splash_screen.dart';
 export 'home.dart';
 export 'register.dart';
+export 'new_appointment_screen.dart';
+export 'new_appointment_dates_screen.dart';
+export 'profile_screen.dart';

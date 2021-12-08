@@ -32,6 +32,7 @@ class APIService{
 
       String accessToken = profile_data_json['accessToken'];
       await storage.write(key: 'accessToken', value: accessToken);
+      print(accessToken); //TODO: remove
 
       String refreshToken = profile_data_json['refreshToken'];
       await storage.write(key: 'refreshToken', value: refreshToken);
@@ -114,6 +115,23 @@ class APIService{
 
   }
 
+  static Future<List<Disease>> getDiseaseSuggestions(String text) async {
+    String accessToken = await getAccessToken();
+
+    final response = await http.get(Uri.parse(_base + "disease?name=" + text),
+        headers: {
+          "authorization": "Bearer " + accessToken,
+        }
+    );
+
+    List<dynamic> diseasesJson = json.decode(response.body);
+
+    List<Disease> diseases = diseasesJson.map((data) => Disease.fromJson(data)).toList();
+
+    return Future.value(diseases);
+
+  }
+
   static Future<List<Place>> getPlacesSuggestions(int id) async {
     String accessToken = await getAccessToken();
 
@@ -128,6 +146,23 @@ class APIService{
     List<Place> places = placesJson.map((data) => Place.fromJson(data)).toList();
 
     return Future.value(places);
+
+  }
+
+  static Future<List<Manufacturer>> getManufacturerSuggestions(int id) async {
+    String accessToken = await getAccessToken();
+
+    final response = await http.get(Uri.parse(_base + "vaccine?diseaseId=" + id.toString()),
+        headers: {
+          "authorization": "Bearer " + accessToken,
+        }
+    );
+
+    List<dynamic> manufacturersJson = json.decode(response.body);
+
+    List<Manufacturer> manufacturers = manufacturersJson.map((data) => Manufacturer.fromJson(data['manufacturer'])).toList();
+
+    return Future.value(manufacturers);
 
   }
 
