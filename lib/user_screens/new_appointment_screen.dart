@@ -39,7 +39,7 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
   List<Vaccine> _vaccines = [];
   List<Manufacturer> _manufacutrers = [];
   List<Place> _places = [];
-  final List<Disease> _diseases = [];
+  List<Disease> _diseases = [];
 
   @override
   Widget build(BuildContext context) {
@@ -79,22 +79,7 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
                     const SizedBox(height: 10),
                     placeField(),
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white24,
-                            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                            shape: const StadiumBorder()
-                        ),
-                        onPressed: ()  async {
-                          //TODO: Check if fields are completed
-                          Provider.of<VisitsManager>(context, listen: false).goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
-
-                          //TODO: remove
-                          DateTime date1 = DateTime(2021, 11, 04);
-                          APIService.getAvailableHours(date1, 1, 1);
-                          },
-                        child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14))
-                    ),
+                    goToDatesButton(),
                   ],
                 ),
               ),
@@ -205,7 +190,7 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
   Widget placeField() {
     return TypeAheadField(
       textFieldConfiguration: TextFieldConfiguration(
-        controller: this._placeFieldController,
+        controller: _placeFieldController,
         decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(
@@ -229,6 +214,25 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
       _selectedPlaceId = suggestion.id;
       _placeFieldController.text = suggestion.name;
     },
+    );
+  }
+
+  Widget goToDatesButton() {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            primary: Colors.white24,
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+            shape: const StadiumBorder()
+        ),
+        onPressed: ()  async {
+          //TODO: Check if fields are completed
+          Provider.of<VisitsManager>(context, listen: false).goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
+
+          //TODO: remove
+          DateTime date1 = DateTime(2021, 11, 04);
+          APIService.getAvailableHours(date1, 1, 1);
+        },
+        child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14))
     );
   }
 }
