@@ -65,132 +65,19 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
                     const SizedBox(height: 20),
                     const Text('Na co chcesz się zaszczepić?', style: TextStyle(color: Colors.white),),
                     const SizedBox(height: 10),
-                    TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: _diseaseFieldController,
-                        decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-
-                            ),
-                            labelText: 'Choroba',
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-                        ),
-                      ),
-                      suggestionsCallback: (String pattern) async {
-                        String _enteredDisease = _diseaseFieldController.text;
-                        List<Disease> diseases = await APIService.getDiseaseSuggestions(_enteredDisease);
-
-                        return diseases;
-                      },
-                      itemBuilder: (context, Disease suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.name),
-                        );
-                      }, onSuggestionSelected: (Disease suggestion) async {
-                      _selectedDiseaseId = suggestion.id;
-                      _diseaseFieldController.text = suggestion.name;
-                      _manufacutrers = await APIService.getManufacturerSuggestions(_selectedDiseaseId);
-                    },
-                    ),
+                    diseaseField(),
                     const SizedBox(height: 20),
                     const Text('Wybierz producenta', style: TextStyle(color: Colors.white),),
                     const SizedBox(height: 10),
-                    TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: _manufacturerFieldController,
-                        decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-
-                            ),
-                            labelText: 'Producent',
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-                        ),
-                      ),
-                      suggestionsCallback: (String pattern) {
-                        return _manufacutrers;
-                      },
-                      itemBuilder: (context, Manufacturer suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.name),
-                        );
-                      }, onSuggestionSelected: (Manufacturer suggestion) {
-                      _selectedVaccineId = suggestion.id;
-                      _manufacturerFieldController.text = suggestion.name;
-                    },
-                    ),
+                    manufacturerField(),
                     const SizedBox(height: 20),
                     const Text('Wprowadź miasto', style: TextStyle(color: Colors.white),),
                     const SizedBox(height: 10),
-                    TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: _cityFieldController,
-                        decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-
-                            ),
-                            labelText: 'Wprowadź miasto',
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-                        ),
-                      ),
-                      suggestionsCallback: (String pattern) async {
-                        String _enteredCity = _cityFieldController.text;
-                        List<City> cities = await APIService.getCitiesSuggestions(_enteredCity);
-
-                        return cities;
-                      },
-                      itemBuilder: (context, City suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.name),
-                        );
-                      }, onSuggestionSelected: (City suggestion) async {
-                        _selectedCityId = suggestion.id;
-                        _cityFieldController.text = suggestion.name;
-                        _places = await APIService.getPlacesSuggestions(_selectedCityId);
-                        _placeFieldController.clear();
-                    },
-                    ),
+                    cityField(),
                     const SizedBox(height: 20),
                     const Text('Wybierz placówke', style: TextStyle(color: Colors.white),),
                     const SizedBox(height: 10),
-                    TypeAheadField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: this._placeFieldController,
-                        decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-
-                            ),
-                            labelText: 'Wybierz placówke',
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-                        ),
-                      ),
-                      suggestionsCallback: (String pattern) {
-                        return _places;
-                      },
-                      itemBuilder: (context, Place suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.name),
-                        );
-                      }, onSuggestionSelected: (Place suggestion) {
-                      _selectedPlaceId = suggestion.id;
-                      _placeFieldController.text = suggestion.name;
-                    },
-                    ),
+                    placeField(),
                     const SizedBox(height: 20),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -216,4 +103,132 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
     );
   }
 
+  Widget diseaseField() {
+    return TypeAheadField(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: _diseaseFieldController,
+        decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18.0),
+
+            ),
+            labelText: 'Choroba',
+            fillColor: Colors.white,
+            filled: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+        ),
+      ),
+      suggestionsCallback: (String pattern) async {
+        String _enteredDisease = _diseaseFieldController.text;
+        List<Disease> diseases = await APIService.getDiseaseSuggestions(_enteredDisease);
+
+        return diseases;
+      },
+      itemBuilder: (context, Disease suggestion) {
+        return ListTile(
+          title: Text(suggestion.name),
+        );
+      }, onSuggestionSelected: (Disease suggestion) async {
+      _selectedDiseaseId = suggestion.id;
+      _diseaseFieldController.text = suggestion.name;
+      _manufacutrers = await APIService.getManufacturerSuggestions(_selectedDiseaseId);
+    },
+    );
+  }
+
+  Widget manufacturerField() {
+    return TypeAheadField(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: _manufacturerFieldController,
+        decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18.0),
+
+            ),
+            labelText: 'Producent',
+            fillColor: Colors.white,
+            filled: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+        ),
+      ),
+      suggestionsCallback: (String pattern) {
+        return _manufacutrers;
+      },
+      itemBuilder: (context, Manufacturer suggestion) {
+        return ListTile(
+          title: Text(suggestion.name),
+        );
+      }, onSuggestionSelected: (Manufacturer suggestion) {
+      _selectedVaccineId = suggestion.id;
+      _manufacturerFieldController.text = suggestion.name;
+    },
+    );
+  }
+
+  Widget cityField() {
+    return TypeAheadField(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: _cityFieldController,
+        decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18.0),
+
+            ),
+            labelText: 'Wprowadź miasto',
+            fillColor: Colors.white,
+            filled: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+        ),
+      ),
+      suggestionsCallback: (String pattern) async {
+        String _enteredCity = _cityFieldController.text;
+        List<City> cities = await APIService.getCitiesSuggestions(_enteredCity);
+
+        return cities;
+      },
+      itemBuilder: (context, City suggestion) {
+        return ListTile(
+          title: Text(suggestion.name),
+        );
+      }, onSuggestionSelected: (City suggestion) async {
+      _selectedCityId = suggestion.id;
+      _cityFieldController.text = suggestion.name;
+      _places = await APIService.getPlacesSuggestions(_selectedCityId);
+      _placeFieldController.clear();
+    },
+    );
+  }
+
+  Widget placeField() {
+    return TypeAheadField(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: this._placeFieldController,
+        decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18.0),
+
+            ),
+            labelText: 'Wybierz placówke',
+            fillColor: Colors.white,
+            filled: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+        ),
+      ),
+      suggestionsCallback: (String pattern) {
+        return _places;
+      },
+      itemBuilder: (context, Place suggestion) {
+        return ListTile(
+          title: Text(suggestion.name),
+        );
+      }, onSuggestionSelected: (Place suggestion) {
+      _selectedPlaceId = suggestion.id;
+      _placeFieldController.text = suggestion.name;
+    },
+    );
+  }
 }
