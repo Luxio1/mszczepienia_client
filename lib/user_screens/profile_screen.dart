@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mszczepienia_client/admin_screens/home.dart';
 import 'package:provider/provider.dart';
 import '../helpers/mycolors.dart';
 
@@ -57,6 +58,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildMenu() {
+    if(widget.profile.roles.contains('ROLE_ADMIN')){
+      return ListView(
+        children: [
+          ListTile(
+            title: const Text('Wyloguj',
+              style: TextStyle(color: Colors.white),),
+            onTap: () {
+              Provider.of<ProfileManager>(context, listen: false)
+                  .tapOnProfile(false);
+              Provider.of<AppStateManager>(context, listen: false).logout();
+              Provider.of<ProfileManager>(context, listen: false).logout();
+            },
+          ),
+          ListTile(
+            title: const Text('Panel Administratora',
+              style: TextStyle(color: Colors.white),),
+            onTap: () {
+              //Provider.of<AppStateManager>(context, listen: false).goToAdmin();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Home()),
+              );
+            },
+          )
+        ],
+      );
+    }
     return ListView(
       children: [
         ListTile(
@@ -68,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Provider.of<AppStateManager>(context, listen: false).logout();
             Provider.of<ProfileManager>(context, listen: false).logout();
           },
-        )
+        ),
       ],
     );
   }
