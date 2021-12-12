@@ -7,6 +7,7 @@ import '../models/models.dart';
 class AppStates {
   static const int yourAppointments = 0;
   static const int history = 1;
+  static const int admin = 2;
 }
 
 class AppStateManager extends ChangeNotifier {
@@ -44,6 +45,11 @@ class AppStateManager extends ChangeNotifier {
     _selectedTab = 0;
 
     initializeApp();
+    notifyListeners();
+  }
+
+  void goToAdmin() {
+    _selectedTab = AppStates.admin;
     notifyListeners();
   }
 
