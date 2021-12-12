@@ -38,9 +38,11 @@ dependencies:
   provider: ^6.0.1
   smooth_page_indicator: ^1.0.0+2
   responsive_grid: ^2.0.0
-  flutter_typeahead: ^3.2.3
+  flutter_typeahead: ^3.2.4
   flutter_secure_storage: ^5.0.2
   intl: ^0.17.0
+  table_calendar: ^3.0.3
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

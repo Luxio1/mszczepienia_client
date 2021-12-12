@@ -8,6 +8,8 @@ class Profile {
 
   List<Patient> users;
 
+  Patient get getMainPatient => users[0];
+
   Profile({
     required this.id,
     required this.email,

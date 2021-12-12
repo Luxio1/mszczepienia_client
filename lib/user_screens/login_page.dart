@@ -56,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: MyColors.blue,
+      //TODO: move body to singleChildScrollView to avoid overflow and split Widgets.
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

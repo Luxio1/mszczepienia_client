@@ -1,14 +1,20 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mszczepienia_client/models/models.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:http/http.dart' as http;
+
 const _base = "https://m-szczepienia.herokuapp.com/api/v1/";
 const _loginURL = _base + "auth/login";
 const _registerURL = _base + "auth/register";
+DateFormat dayFormatter = DateFormat('yyyy-MM-dd');
+DateFormat hourFormatter = DateFormat('HH:mm:ss');
+
+
 final storage = FlutterSecureStorage();
 
 
@@ -43,6 +49,8 @@ class APIService{
             "authorization": "Bearer " + accessToken,
           }
       );
+
+      print(profile_data_json);
 
       if(user_response.statusCode == 200) {
 
@@ -84,7 +92,6 @@ class APIService{
 
   static List<Patient> getUsersFromResponse(http.Response response) {
     List<dynamic> usersJson = json.decode(response.body);
-
     List<Patient> users = [];
 
     for(var userJson in usersJson){
@@ -167,12 +174,35 @@ class APIService{
 
   }
 
-  static Future<List<String>> getAvailableHours(DateTime date, int placeId, int vaccineId) async {
+  //TODO: uncomment to make dots in calendar to show possible hours without choosing day
+  // static Future<Map<DateTime, List<dynamic>>> getEventsMap(DateTime firstDate, DateTime lastDate, int placeId, int vaccineId) async{
+  //
+  //   List<DateTime> dates = [];
+  //   List<List<dynamic>> values = [];
+  //
+  //   int datesDelta = lastDate.difference(firstDate).inDays;
+  //
+  //   firstDate = DateTime.parse(formatter.format(firstDate));
+  //
+  //   for(var i = 0; i < datesDelta; i++){
+  //
+  //     DateTime date = firstDate.add(Duration(days: i));
+  //     List<dynamic> valuesForDay = await getAvailableHoursForDay(date, placeId, vaccineId);
+  //
+  //     dates.add(date);
+  //     values.add(valuesForDay);
+  //   }
+
+  //   Map<DateTime, List<dynamic>> newMap = LinkedHashMap.fromIterables(dates, values);
+  //
+  //   return Future.value(newMap);
+  // }
+
+  static Future<List<String>> getAvailableHoursForDay(DateTime date, int placeId, int vaccineId) async {
     String accessToken = await getAccessToken();
-    DateFormat formatter = DateFormat('yyyy-MM-dd');
 
     final response = await http.get(Uri.parse(_base + "visit/find?date="
-        + formatter.format(date)
+        + dayFormatter.format(date)
         + "&placeId="
         + placeId.toString()
         + "&vaccineId="
@@ -184,11 +214,42 @@ class APIService{
 
     var responseJson = json.decode(response.body);
 
-    List<String> visitHours = responseJson['visitHours'];
-    print(visitHours); //TODO: remove
+    List<dynamic> visitHours = responseJson['visitHours'];
+    List<String> visitHoursString = visitHours.cast<String>();
 
-    return Future.value(visitHours);
 
+    return Future.value(visitHoursString);
+  }
+
+  //TODO: test if works
+  static Future<int> bookVisit(DateTime date, int placeId, int vaccineId, int patientId) async {
+    String accessToken = await getAccessToken();
+    int responseCode;
+
+    Map data = {
+      "date": dayFormatter.format(date),
+      "time": hourFormatter.format(date),
+      "placeId": placeId,
+      "vaccineId": vaccineId,
+      "patientId": patientId
+    };
+
+    print(data);
+
+    final response = await http.post(Uri.parse(_base + "visit"),
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": "Bearer " + accessToken,
+        },
+      body: json.encode(data),
+    );
+
+    responseCode = response.statusCode;
+
+    print(response.body);
+
+    print(responseCode);
+    return responseCode; //add other response codes
   }
 
 }

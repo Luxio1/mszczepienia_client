@@ -225,12 +225,11 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
             shape: const StadiumBorder()
         ),
         onPressed: ()  async {
-          //TODO: Check if fields are completed
+          //TODO: Check if fields are completeduser@
           Provider.of<VisitsManager>(context, listen: false).goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
 
-          //TODO: remove
-          DateTime date1 = DateTime(2021, 11, 04);
-          APIService.getAvailableHours(date1, 1, 1);
+
+          //APIService.getEventsMap(DateTime.now(), DateTime.now().add(Duration(days:14)), 1, 1);
         },
         child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14))
     );
