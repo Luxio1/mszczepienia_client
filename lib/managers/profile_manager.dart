@@ -10,7 +10,6 @@ class ProfileManager extends ChangeNotifier {
 
   bool get didSelectUser => _didSelectProfile;
 
-
   var _loggedIn = false;
   var _didSelectProfile = false;
 
@@ -31,20 +30,22 @@ class ProfileManager extends ChangeNotifier {
 
   }
 
-  void login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     Profile? profile = await APIService.login(email, password);
     if(profile != null){
       _loggedIn = true;
       this.profile = profile;
       notifyListeners();
+      return true;
     } else {
-      throw "Couldn't log in";
+      return false;
     }
   }
 
   void logout() {
     _loggedIn = false;
-    //TODO: Delete saved user data
+    _didSelectProfile = false;
+    //TODO: delete user data
     notifyListeners();
   }
 

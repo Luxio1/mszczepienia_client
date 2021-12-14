@@ -168,10 +168,9 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           checkConnection();
           if (hasConnection) {
-            Provider.of<ProfileManager>(context, listen: false)
+            bool loggedIn = await Provider.of<ProfileManager>(context, listen: false)
                 .login(emailController.text, passwordController.text);
-            if (!Provider.of<ProfileManager>(context, listen: false)
-                .isLoggedIn) {
+            if (!loggedIn) {
               Fluttertoast.showToast(msg: "Błędne dane logowania");
             } else {
               Fluttertoast.showToast(msg: "Logowanie udane");
