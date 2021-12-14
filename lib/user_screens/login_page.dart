@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         content: Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
           ),
         ));
@@ -54,9 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: MyColors.blue,
-      //TODO: move body to singleChildScrollView to avoid overflow and split Widgets.
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -76,38 +74,9 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
                     const SizedBox(height: 20),
-                    TextField(
-                      autofocus: false,
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                          labelText: 'Email',
-                          fillColor: Colors.white,
-                          filled: true, contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-                      ),
-                    ),
+                    emailField(),
                     const SizedBox(height: 10),
-                    TextField(
-                      autofocus: false,
-                      controller: passwordController,
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-
-                          ),
-                          labelText: 'Hasło',
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-                      ),
-                    ),
+                    passwordField(),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -181,4 +150,44 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  Widget emailField() {
+    return TextField(
+      autofocus: false,
+      controller: emailController,
+      decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          labelText: 'Email',
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: const EdgeInsets.symmetric(
+              vertical: 10, horizontal: 20)
+      ),
+    );
+  }
+
+  Widget passwordField() {
+    return TextField(
+      autofocus: false,
+      controller: passwordController,
+      obscureText: true,
+      enableSuggestions: false,
+      autocorrect: false,
+      decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18.0),
+
+          ),
+          labelText: 'Hasło',
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+      ),
+    );
+  }
+
 }
