@@ -79,6 +79,10 @@ class AppRouter extends RouterDelegate
       visitsManager.tapOnCreateNewItem(false);
     }
 
+    if(route.settings.name == Pages.newAppointmentDates) {
+      visitsManager.goToPlaceScreen();
+    }
+
     //TODO: add creating support for new item screen
 
 

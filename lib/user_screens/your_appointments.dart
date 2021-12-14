@@ -70,8 +70,25 @@ class _YourAppointmentsState extends State<YourAppointments> {
                     color: Colors.white,
                   ),
                   child: ListTile(
-                    title: Text(_visits[index].localDate.toString()),
-                    subtitle: Text(_visits[index].localTime.toString()),
+                    title: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Choroba: " + _visits[index].vaccine.disease.name.toString()),
+                        Text("Producent: " + _visits[index].vaccine.manufacturer.name.toString()),
+                        Text("Data: " + _visits[index].localDate.toString()),
+                        Text("Godzina: " + _visits[index].localTime.toString()),
+                      ],
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Placówka: " + _visits[index].place.name.toString()),
+                        Text("Ulica: " + _visits[index].place.address.street.toString() + " " + _visits[index].place.address.number.toString()),
+                        Text("Miasto: " + _visits[index].place.address.city.name.toString()),
+                      ],
+                    ),
                   ),
                 );
               }

@@ -14,6 +14,6 @@ class Vaccine {
   factory Vaccine.fromJson(Map<String, dynamic> json) {
     return Vaccine(id: json['id'] as int,
         manufacturer: Manufacturer.fromJson(json['manufacturer']),
-        disease: Disease.fromJson(json['diseease']));
+        disease: Disease.fromJson(json['disease']));
   }
 }
