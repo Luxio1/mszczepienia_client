@@ -78,67 +78,11 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 10),
                     passwordField(),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          "Jesteś nowym użytkownikiem? ",
-                          style: TextStyle(fontSize: 14, color: Colors.white54),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            log("Tap.");
-                            Provider.of<RegistrationManager>(context, listen: false).tapOnRegister(true);
-                          },
-                          child: const Text(
-                            "Załóż konto",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    register(),
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white24,
-                            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                            shape: const StadiumBorder()
-                        ),
-                        onPressed: ()  async {
-                          Provider.of<ProfileManager>(context, listen: false). login(emailController.text, passwordController.text);
-                          //TODO: Check login() response
-                        },
-                        child: const Text("Zaloguj", style: TextStyle(fontSize: 14))
-                    ),
+                    loginButton(),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          "Zapomniałeś hasła? ",
-                          style: TextStyle(fontSize: 14, color: Colors.white54),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            //TODO: Add forgot password page
-                          },
-                          child: const Text(
-                            "Przypomnij hasło",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-
+                    forgotPassword(),
                   ],
                 ),
               )
@@ -187,6 +131,72 @@ class _LoginPageState extends State<LoginPage> {
           filled: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
       ),
+    );
+  }
+
+  Widget register() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text(
+          "Jesteś nowym użytkownikiem? ",
+          style: TextStyle(fontSize: 14, color: Colors.white54),
+        ),
+        GestureDetector(
+          onTap: () {
+            log("Tap.");
+            Provider.of<RegistrationManager>(context, listen: false).tapOnRegister(true);
+          },
+          child: const Text(
+            "Załóż konto",
+            style: TextStyle(
+                fontSize: 14,
+                color: Colors.blue,
+                decoration: TextDecoration.underline
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget loginButton() {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            primary: Colors.white24,
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+            shape: const StadiumBorder()
+        ),
+        onPressed: ()  async {
+          Provider.of<ProfileManager>(context, listen: false). login(emailController.text, passwordController.text);
+          //TODO: Check login() response
+        },
+        child: const Text("Zaloguj", style: TextStyle(fontSize: 14))
+    );
+  }
+
+  Widget forgotPassword() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text(
+          "Zapomniałeś hasła? ",
+          style: TextStyle(fontSize: 14, color: Colors.white54),
+        ),
+        GestureDetector(
+          onTap: () {
+            //TODO: Add forgot password page
+          },
+          child: const Text(
+            "Przypomnij hasło",
+            style: TextStyle(
+                fontSize: 14,
+                color: Colors.blue,
+                decoration: TextDecoration.underline
+            ),
+          ),
+        ),
+      ],
     );
   }
 
