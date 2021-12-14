@@ -6,7 +6,7 @@ class Visit {
   String localDate;
   String localTime;
   //Vaccine vaccine;
-  VisitStatus status;
+  //VisitStatus status;
 
   Visit({
     //required this.id,
@@ -14,7 +14,7 @@ class Visit {
     required this.localDate,
     required this.localTime,
     //required this.vaccine,
-    required this.status,
+    //required this.status,
   });
 
 
@@ -22,10 +22,10 @@ class Visit {
     return Visit(
         //id: json['id'] as int,
         //place: Place.fromJson(json['place']),
-        localDate: json['date'], //TODO: check how to cast to DateTime from String
-        localTime: json['time'], //TODO: check how to cast to DateTime from String
+        localDate: json['date'],
+        localTime: json['time'],
         //vaccine: Vaccine.fromJson(json['vaccine']),
-        status: json['visitStatus'] as VisitStatus //TODO: make sure we can cast to self made enum
+        //status: json['visitStatus'] as VisitStatus //TODO: make sure we can cast to self made enum
     );
     //TODO: set proper types in fromJson function (as String etc.)
   }

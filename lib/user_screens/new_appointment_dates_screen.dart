@@ -36,8 +36,9 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
 
   late int placeId;
   late int vaccineId;
-  
-  ValueNotifier<List<String>> _selectedEvents = ValueNotifier(['test_string', 'lol2']);
+
+  //TODO: add showing firstDay visit hours
+  ValueNotifier<List<String>> _selectedEvents = ValueNotifier([]);
 
   @override
   Widget build(BuildContext context) {

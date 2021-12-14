@@ -248,14 +248,21 @@ class APIService{
 
   static Future<List<Visit>> getPendingVisits(int patientId) async {
     int responseCode;
-    
-    final response = await http.get(Uri.parse(_base + "visit?patientId=" + patientId.toString()),
+    List<Visit> visits = [];
+
+    final response = await http.get(Uri.parse(_base + "visit/history?patientId=" + patientId.toString()),
     headers: {
-      "authorization" : "Bearer" + await getAccessToken(),
+      "authorization" : "Bearer " + await getAccessToken(),
     });
 
-    List<dynamic> visitsJson = json.decode(response.body);
-    List<Visit> visits = visitsJson.map((data) => Visit.fromJson(data)).toList();
+    if(response.statusCode == 200) {
+
+      List<dynamic> visitsJson = json.decode(response.body);
+
+      visits = visitsJson.map((data) => Visit.fromJson(data)).toList();
+    } else {
+      print(response.statusCode);
+    }
 
     return visits;
   }

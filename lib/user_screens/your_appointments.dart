@@ -27,8 +27,8 @@ class YourAppointments extends StatefulWidget {
 
 class _YourAppointmentsState extends State<YourAppointments> {
 
-  List<Visit>? _visits ;
-
+  List<Visit> _visits = [];
+  ValueNotifier<List<Visit>> _visitsNotifier = ValueNotifier([]);
 
 
   @override
@@ -40,8 +40,8 @@ class _YourAppointmentsState extends State<YourAppointments> {
       ),
       body: Column(
         children: <Widget>[
-          _visits != null ?
-          visitList(_visits!)
+          _visits.isNotEmpty ?
+          visitList()
               : noVisits(),
           refreshVisitsButton(),
         ],
@@ -51,24 +51,33 @@ class _YourAppointmentsState extends State<YourAppointments> {
     );
   }
 
-  Widget visitList(List<Visit> visitList) {
-    return ListView.builder(
-        itemCount: visitList.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 4.0,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: ListTile(
-              title: Text(visitList[index].localDate.toString()),
-            ),
+  Widget visitList() {
+    return Expanded(
+      child: ValueListenableBuilder<List<Visit>> (
+        valueListenable: _visitsNotifier,
+        builder: (context, _visits, _) {
+          return ListView.builder(
+              itemCount: _visits.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 4.0,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Colors.white,
+                  ),
+                  child: ListTile(
+                    title: Text(_visits[index].localDate.toString()),
+                    subtitle: Text(_visits[index].localTime.toString()),
+                  ),
+                );
+              }
           );
-        }
+        },
+      ),
     );
   }
 
@@ -105,6 +114,7 @@ class _YourAppointmentsState extends State<YourAppointments> {
       int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
       _visits = await APIService.getPendingVisits(patientId);
       print(_visits);
+      _visitsNotifier.value = _visits;
     },
     child: const Text("Odśwież listę"),);
 
