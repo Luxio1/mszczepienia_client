@@ -38,13 +38,15 @@ class _YourAppointmentsState extends State<YourAppointments> {
         title: const Text('Twoje Szczepienia'),
         backgroundColor: MyColors.blue,
       ),
-      body: Column(
-        children: <Widget>[
-          _visits.isNotEmpty ?
-          visitList()
-              : noVisits(),
-          refreshVisitsButton(),
-        ],
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Column(
+          children: <Widget>[
+            _visits.isNotEmpty ?
+            visitList()
+                : noVisits(),
+          ],
+        ),
       ),
       floatingActionButton: addButton(),
       backgroundColor: MyColors.blue,
@@ -57,6 +59,7 @@ class _YourAppointmentsState extends State<YourAppointments> {
         valueListenable: _visitsNotifier,
         builder: (context, _visits, _) {
           return ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
               itemCount: _visits.length,
               itemBuilder: (context, index) {
                 return Container(
@@ -126,15 +129,10 @@ class _YourAppointmentsState extends State<YourAppointments> {
     );
   }
 
-  Widget refreshVisitsButton() {
-    return ElevatedButton(onPressed: () async {
-      int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
-      _visits = await APIService.getPendingVisits(patientId);
-      print(_visits);
-      _visitsNotifier.value = _visits;
-    },
-    child: const Text("Odśwież listę"),);
-
+  Future<void> refresh() async {
+    int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
+    _visits = await APIService.getPendingVisits(patientId);
+    _visitsNotifier.value = _visits;
   }
 
 }
