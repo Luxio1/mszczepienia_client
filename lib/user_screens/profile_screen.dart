@@ -51,18 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget logoutButton() {
-    return ElevatedButton(
-      child: const Text(
-        'Wyloguj',
-        style: TextStyle(color: Colors.white),
-      ),
-      onPressed: () {
-        Provider.of<AppStateManager>(context, listen: false).logout();
-        Provider.of<ProfileManager>(context, listen: false).logout();
-      },
-    );
-  }
+
 
   Widget buildProfile() {
     return Container(
@@ -108,4 +97,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  Widget logoutButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+      child: const Text(
+        'Wyloguj',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        Provider.of<AppStateManager>(context, listen: false).logout();
+        Provider.of<ProfileManager>(context, listen: false).logout();
+      },
+    );
+  }
+
 }
