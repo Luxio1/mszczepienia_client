@@ -42,9 +42,7 @@ class _YourAppointmentsState extends State<YourAppointments> {
         onRefresh: refresh,
         child: Column(
           children: <Widget>[
-            _visits.isNotEmpty ?
             visitList()
-                : noVisits(),
           ],
         ),
       ),
