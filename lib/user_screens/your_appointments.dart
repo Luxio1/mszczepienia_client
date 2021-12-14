@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
 import 'package:mszczepienia_client/managers/visits_manager.dart';
+import 'package:mszczepienia_client/services/api_service.dart';
 import 'package:provider/provider.dart';
 import '../models/pages.dart';
 import '../models/models.dart';
@@ -26,7 +27,7 @@ class YourAppointments extends StatefulWidget {
 
 class _YourAppointmentsState extends State<YourAppointments> {
 
-  List<Visit>? _appointments ;
+  List<Visit>? _visits ;
 
 
 
@@ -37,22 +38,44 @@ class _YourAppointmentsState extends State<YourAppointments> {
         title: const Text('Twoje Szczepienia'),
         backgroundColor: MyColors.blue,
       ),
-      body: _appointments != null ?
-      ListView.builder(
-        itemCount: _appointments!.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_appointments![index].id.toString()),
-            //TODO: add details view after click
-          );
-        }
-      )
-      : const Text(
-        "Nie masz umówionych szczepień",
-        style: TextStyle(color: Colors.white),),
+      body: Column(
+        children: <Widget>[
+          _visits != null ?
+          visitList(_visits!)
+              : noVisits(),
+          refreshVisitsButton(),
+        ],
+      ),
       floatingActionButton: addButton(),
       backgroundColor: MyColors.blue,
     );
+  }
+
+  Widget visitList(List<Visit> visitList) {
+    return ListView.builder(
+        itemCount: visitList.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 4.0,
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: ListTile(
+              title: Text(visitList[index].localDate.toString()),
+            ),
+          );
+        }
+    );
+  }
+
+  Widget noVisits() {
+    return const Text(
+      "Nie masz umówionych szczepień",
+      style: TextStyle(color: Colors.white));
   }
 
   Widget addButton() {
@@ -75,6 +98,16 @@ class _YourAppointmentsState extends State<YourAppointments> {
         )
       ),
     );
+  }
+
+  Widget refreshVisitsButton() {
+    return ElevatedButton(onPressed: () async {
+      int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
+      _visits = await APIService.getPendingVisits(patientId);
+      print(_visits);
+    },
+    child: const Text("Odśwież listę"),);
+
   }
 
 }

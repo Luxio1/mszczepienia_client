@@ -41,7 +41,7 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
           itemCount: _visits!.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(_visits![index].id.toString()),
+              title: Text(_visits![index].localDate),
               //TODO: add details view after click
             );
           }

@@ -221,9 +221,7 @@ class APIService{
     return Future.value(visitHoursString);
   }
 
-  //TODO: test if works
   static Future<int> bookVisit(DateTime date, int placeId, int vaccineId, int patientId) async {
-    String accessToken = await getAccessToken();
     int responseCode;
 
     Map data = {
@@ -239,17 +237,27 @@ class APIService{
     final response = await http.post(Uri.parse(_base + "visit"),
         headers: {
           "Content-Type": "application/json",
-          "authorization": "Bearer " + accessToken,
+          "authorization": "Bearer " + await getAccessToken(),
         },
       body: json.encode(data),
     );
 
     responseCode = response.statusCode;
-
-    print(response.body);
-
-    print(responseCode);
     return responseCode; //add other response codes
+  }
+
+  static Future<List<Visit>> getPendingVisits(int patientId) async {
+    int responseCode;
+    
+    final response = await http.get(Uri.parse(_base + "visit?patientId=" + patientId.toString()),
+    headers: {
+      "authorization" : "Bearer" + await getAccessToken(),
+    });
+
+    List<dynamic> visitsJson = json.decode(response.body);
+    List<Visit> visits = visitsJson.map((data) => Visit.fromJson(data)).toList();
+
+    return visits;
   }
 
 }

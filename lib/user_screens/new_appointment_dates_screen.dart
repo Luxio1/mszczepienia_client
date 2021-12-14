@@ -143,13 +143,9 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
           DateTime fullDate = DateTime.parse(date);
           int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
 
-          //TODO: remove prints
-          print(fullDate);
-          print(placeId);
-          print(vaccineId);
-          print(patientId);
-
           APIService.bookVisit(fullDate, placeId, vaccineId, patientId);
+          //TODO: check response
+
           },
         child: const Text('Rezerwuj termin', style: TextStyle(fontSize: 14),)
     );
