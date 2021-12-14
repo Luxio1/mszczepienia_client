@@ -1,38 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
 import 'package:mszczepienia_client/services/api_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../models/pages.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../managers/managers.dart';
 
 class NewAppointmentDatesScreen extends StatefulWidget {
-
   static MaterialPage page() {
     return MaterialPage(
         name: Pages.newAppointmentDates,
         key: ValueKey(Pages.newAppointmentDates),
-        child: const NewAppointmentDatesScreen()
-    );
+        child: const NewAppointmentDatesScreen());
   }
 
   const NewAppointmentDatesScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState()  => _NewAppointmentDatesState();
+  State<StatefulWidget> createState() => _NewAppointmentDatesState();
 }
 
 class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
-
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   final DateTime _firstDay = DateTime.now();
   final Duration _dateDistance = const Duration(days: 14);
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  late String _selectedHour;
+  ValueNotifier _selectedHourNotifier = ValueNotifier('Brak');
 
   late int placeId;
   late int vaccineId;
@@ -44,8 +39,6 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
   Widget build(BuildContext context) {
     placeId = Provider.of<VisitsManager>(context, listen: false).getPlaceId;
     vaccineId = Provider.of<VisitsManager>(context, listen: false).getVaccineId;
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -61,24 +54,32 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
       backgroundColor: MyColors.blue,
       body: Container(
         color: Colors.white,
-        child: Column(
-          children: <Widget> [
-            calendar(),
-            const SizedBox(height: 20,),
-            suggestedHours(),
-            const SizedBox(height: 20,),
-            bookButton(),
-          ]
+        child: Column(children: <Widget>[
+          calendar(),
+          const SizedBox(
+            height: 20,
           ),
+          ValueListenableBuilder(
+              valueListenable: _selectedHourNotifier,
+              builder: (context, value, _) {
+                return Text("Wybrana godzina: " + _selectedHourNotifier.value);
+          }
+          ),
+          suggestedHours(),
+          const SizedBox(
+            height: 20,
+          ),
+          bookButton(),
+        ]),
       ),
     );
   }
 
   Widget calendar() {
     return TableCalendar(
-        focusedDay: _focusedDay,
-        firstDay: _firstDay,
-        lastDay: _firstDay.add(_dateDistance),
+      focusedDay: _focusedDay,
+      firstDay: _firstDay,
+      lastDay: _firstDay.add(_dateDistance),
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },
@@ -86,50 +87,50 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
+          _selectedHourNotifier.value = "Brak";
         });
 
-        _selectedEvents.value = await APIService.getAvailableHoursForDay(_selectedDay, placeId, vaccineId);
+        _selectedEvents.value = await APIService.getAvailableHoursForDay(
+            _selectedDay, placeId, vaccineId);
         //print(_selectedEvents.value);
       },
       calendarFormat: _calendarFormat,
       onFormatChanged: (format) {
-          setState(() {
-            _calendarFormat = format;
-          });
+        setState(() {
+          _calendarFormat = format;
+        });
       },
       onPageChanged: (focusedDay) {
-          _focusedDay = focusedDay;
+        _focusedDay = focusedDay;
       },
     );
   }
 
   Widget suggestedHours() {
     return Expanded(
-        child: ValueListenableBuilder<List<dynamic>> (
-          valueListenable: _selectedEvents,
-          builder: (context, hoursList, _){
-            return ListView.builder(
-                itemCount: hoursList.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                    decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: ListTile(
-                      onTap: () => _selectedHour = hoursList[index],
-                      title: Text(hoursList[index]),
-                  ),
-                  );
-                }
-            );
-          },
-        )
-    );
+        child: ValueListenableBuilder<List<dynamic>>(
+      valueListenable: _selectedEvents,
+      builder: (context, hoursList, _) {
+        return ListView.builder(
+            itemCount: hoursList.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 4.0,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: ListTile(
+                  onTap: () => _selectedHourNotifier.value = hoursList[index],
+                  title: Text(hoursList[index]),
+                ),
+              );
+            });
+      },
+    ));
   }
 
   Widget bookButton() {
@@ -137,21 +138,21 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
         style: ElevatedButton.styleFrom(
             primary: Colors.white24,
             padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-            shape: const StadiumBorder()
-        ),
+            shape: const StadiumBorder()),
         onPressed: () async {
-          String date = dayFormatter.format(_selectedDay) + " " + _selectedHour;
+          String date = dayFormatter.format(_selectedDay) + " " + _selectedHourNotifier.value;
           DateTime fullDate = DateTime.parse(date);
-          int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
+          int patientId = Provider.of<ProfileManager>(context, listen: false)
+              .getProfile
+              .getMainPatient
+              .id;
 
           APIService.bookVisit(fullDate, placeId, vaccineId, patientId);
           //TODO: check response
-
-          },
-        child: const Text('Rezerwuj termin', style: TextStyle(fontSize: 14),)
-    );
+        },
+        child: const Text(
+          'Rezerwuj termin',
+          style: TextStyle(fontSize: 14),
+        ));
   }
-
-
-  
 }
