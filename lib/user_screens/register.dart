@@ -45,7 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: MyColors.blue,
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
