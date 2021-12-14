@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mszczepienia_client/admin_screens/home.dart';
+import 'package:mszczepienia_client/admin_screens/admin_home.dart';
 import 'package:provider/provider.dart';
 import '../helpers/mycolors.dart';
 
@@ -16,18 +16,14 @@ class ProfileScreen extends StatefulWidget {
   }
 
   final Profile profile;
-  const ProfileScreen({
-    Key? key,
-    required this.profile
-}) : super(key: key);
+
+  const ProfileScreen({Key? key, required this.profile}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
-
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,86 +38,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       backgroundColor: MyColors.blue,
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 16.0),
-            buildProfile(),
-            Expanded(
-              child: buildMenu(),
-            )
-          ],
-        ),
+      body: ListView(
+        children: [
+          const SizedBox(height: 20.0),
+          buildProfile(),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: logoutButton(),
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildMenu() {
-    if(widget.profile.roles.contains('ROLE_ADMIN')){
-      return ListView(
-        children: [
-          ListTile(
-            title: const Text('Wyloguj',
-              style: TextStyle(color: Colors.white),),
-            onTap: () {
-              Provider.of<ProfileManager>(context, listen: false)
-                  .tapOnProfile(false);
-              Provider.of<AppStateManager>(context, listen: false).logout();
-              Provider.of<ProfileManager>(context, listen: false).logout();
-            },
-          ),
-          ListTile(
-            title: const Text('Panel Administratora',
-              style: TextStyle(color: Colors.white),),
-            onTap: () {
-              //Provider.of<AppStateManager>(context, listen: false).goToAdmin();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              );
-            },
-          )
-        ],
-      );
-    }
-    return ListView(
-      children: [
-        ListTile(
-          title: const Text('Wyloguj',
-          style: TextStyle(color: Colors.white),),
-          onTap: () {
-            Provider.of<ProfileManager>(context, listen: false)
-                .tapOnProfile(false);
-            Provider.of<AppStateManager>(context, listen: false).logout();
-            Provider.of<ProfileManager>(context, listen: false).logout();
-          },
-        ),
-      ],
-    );
-  }
-  
-  Widget buildProfile() {
-    return Column(
-      children: [
-        Text(
-          widget.profile.email,
-          style: const TextStyle(fontSize: 21, color: Colors.white),
-        ),
-        Text(
-          widget.profile.users[0].firstName,
-          style: const TextStyle(fontSize: 21, color: Colors.white),
-        ),
-        Text(
-          widget.profile.users[0].lastName,
-          style: const TextStyle(fontSize: 21, color: Colors.white),
-        ),
-        Text(
-          widget.profile.users[0].pesel,
-          style: const TextStyle(fontSize: 21, color: Colors.white),
-        ),
-      ],
+  Widget logoutButton() {
+    return ElevatedButton(
+      child: const Text(
+        'Wyloguj',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        Provider.of<AppStateManager>(context, listen: false).logout();
+        Provider.of<ProfileManager>(context, listen: false).logout();
+      },
     );
   }
 
+  Widget buildProfile() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+            child: Text(
+              "Imię: " + widget.profile.users[0].firstName,
+              style: const TextStyle(fontSize: 21, color: Colors.black),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+            child: Text(
+              "Nazwisko: " + widget.profile.users[0].lastName,
+              style: const TextStyle(fontSize: 21, color: Colors.black),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+            child: Text(
+              "Email: " + widget.profile.email,
+              style: const TextStyle(fontSize: 21, color: Colors.black),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+            child: Text(
+              "PESEL: " + widget.profile.users[0].pesel,
+              style: const TextStyle(fontSize: 21, color: Colors.black),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
