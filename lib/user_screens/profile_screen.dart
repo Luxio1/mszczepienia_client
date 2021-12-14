@@ -69,28 +69,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
             child: Text(
               "Imię: " + widget.profile.users[0].firstName,
-              style: const TextStyle(fontSize: 21, color: Colors.black),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
             child: Text(
               "Nazwisko: " + widget.profile.users[0].lastName,
-              style: const TextStyle(fontSize: 21, color: Colors.black),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
             child: Text(
               "Email: " + widget.profile.email,
-              style: const TextStyle(fontSize: 21, color: Colors.black),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
             child: Text(
               "PESEL: " + widget.profile.users[0].pesel,
-              style: const TextStyle(fontSize: 21, color: Colors.black),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             ),
           ),
         ],
