@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../user_screens/screens.dart';
 
 import '../helpers/mycolors.dart';
@@ -186,14 +187,19 @@ class _RegisterPageState extends State<RegisterPage> {
             padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
             shape: const StadiumBorder()),
         onPressed: () async {
-          Provider.of<ProfileManager>(context, listen: false).register(
+          bool response = await Provider.of<ProfileManager>(context, listen: false).register(
               nameController.text,
               surnameController.text,
               idController.text,
               emailController.text,
               passwordController.text);
 
-          //TODO: Check register() response
+          if(response == true) {
+           Fluttertoast.showToast(msg: "Utworzono konto");
+           Provider.of<RegistrationManager>(context, listen: false).tapOnRegister(false);
+          } else {
+            Fluttertoast.showToast(msg: "Nie udało się utworzyć konta");
+          }
         },
         child: const Text("Załóż konto", style: TextStyle(fontSize: 14)));
   }

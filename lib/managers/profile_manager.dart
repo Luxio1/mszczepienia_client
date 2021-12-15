@@ -36,9 +36,9 @@ class ProfileManager extends ChangeNotifier {
   }
 
 
-  void register(String name, String surname, String id, String email, String password) {
-    APIService.register(name, surname, id, email, password);
-
+  Future<bool> register(String name, String surname, String id, String email, String password) async {
+    bool response = await APIService.register(name, surname, id, email, password);
+    return response;
   }
 
   Future<bool> login(String email, String password) async {
