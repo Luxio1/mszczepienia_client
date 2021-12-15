@@ -37,9 +37,17 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
   ValueNotifier<List<String>> _selectedEvents = ValueNotifier([]);
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     placeId = Provider.of<VisitsManager>(context, listen: false).getPlaceId;
     vaccineId = Provider.of<VisitsManager>(context, listen: false).getVaccineId;
+    getInitialData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //placeId = Provider.of<VisitsManager>(context, listen: false).getPlaceId;
+    //vaccineId = Provider.of<VisitsManager>(context, listen: false).getVaccineId;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -170,5 +178,10 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
           'Rezerwuj termin',
           style: TextStyle(fontSize: 14),
         ));
+  }
+
+  Future<void> getInitialData() async {
+    _selectedEvents.value = await APIService.getAvailableHoursForDay(
+        _selectedDay, placeId, vaccineId);
   }
 }
