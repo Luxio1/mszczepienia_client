@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mszczepienia_client/helpers/mycolors.dart';
 import 'package:mszczepienia_client/services/api_service.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -140,15 +141,30 @@ class _NewAppointmentDatesState extends State<NewAppointmentDatesScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
             shape: const StadiumBorder()),
         onPressed: () async {
-          String date = dayFormatter.format(_selectedDay) + " " + _selectedHourNotifier.value;
-          DateTime fullDate = DateTime.parse(date);
-          int patientId = Provider.of<ProfileManager>(context, listen: false)
-              .getProfile
-              .getMainPatient
-              .id;
+          if(_selectedHourNotifier.value != "Brak"){
+            String date = dayFormatter.format(_selectedDay) + " " + _selectedHourNotifier.value;
+            DateTime fullDate = DateTime.parse(date);
+            int patientId = Provider.of<ProfileManager>(context, listen: false)
+                .getProfile
+                .getMainPatient
+                .id;
 
-          APIService.bookVisit(fullDate, placeId, vaccineId, patientId);
-          //TODO: check response
+            int responseCode = await APIService.bookVisit(fullDate, placeId, vaccineId, patientId);
+
+            if(responseCode == 200) {
+              Provider.of<VisitsManager>(context, listen: false)
+                  .tapOnCreateNewItem(false);
+              Fluttertoast.showToast(msg: "Umówiono nowe spotkanie");
+            } else {
+              Fluttertoast.showToast(msg: "Nie można zarezerwować spotkania");
+              Provider.of<VisitsManager>(context, listen: false)
+                  .tapOnCreateNewItem(false);
+            }
+
+          } else {
+           Fluttertoast.showToast(msg: "Wybierz godzinę");
+          }
+          
         },
         child: const Text(
           'Rezerwuj termin',
