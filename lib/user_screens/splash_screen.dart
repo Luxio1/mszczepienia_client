@@ -42,8 +42,11 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 200,
               image: AssetImage('assets/healthcare.png'),
             ),
-            Text('Initializing...',
-            style: TextStyle(fontSize: 25, color: Colors.white),),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('Inicjalizacja...',
+              style: TextStyle(fontSize: 25, color: Colors.white),),
+            ),
           ],
         ),
       ),
