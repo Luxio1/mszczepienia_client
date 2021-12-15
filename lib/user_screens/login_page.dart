@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
             shape: const StadiumBorder()),
         onPressed: () async {
-          checkConnection();
+          await checkConnection();
           if (hasConnection) {
             bool loggedIn = await Provider.of<ProfileManager>(context, listen: false)
                 .login(emailController.text, passwordController.text);
