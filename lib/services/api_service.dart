@@ -39,7 +39,6 @@ class APIService{
 
       String accessToken = profile_data_json['accessToken'];
       await storage.write(key: 'accessToken', value: accessToken);
-      print(accessToken); //TODO: remove
 
       String refreshToken = profile_data_json['refreshToken'];
       await storage.write(key: 'refreshToken', value: refreshToken);
@@ -49,8 +48,6 @@ class APIService{
             "authorization": "Bearer " + accessToken,
           }
       );
-
-      print(profile_data_json);
 
       if(user_response.statusCode == 200) {
 
@@ -231,8 +228,6 @@ class APIService{
       "vaccineId": vaccineId,
       "patientId": patientId
     };
-
-    print(data);
 
     final response = await http.post(Uri.parse(_base + "visit"),
         headers: {

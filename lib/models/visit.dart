@@ -27,6 +27,5 @@ class Visit {
         vaccine: Vaccine.fromJson(json['vaccine']),
         status: json['visitStatus']
     );
-    //TODO: set proper types in fromJson function (as String etc.)
   }
 }

@@ -91,8 +91,6 @@ class AppRouter extends RouterDelegate
       visitsManager.goToPlaceScreen();
     }
 
-    //TODO: add creating support for new item screen
-
 
   return true;
 }

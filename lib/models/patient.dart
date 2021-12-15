@@ -3,7 +3,7 @@ class Patient {
   final String firstName;
   final String lastName;
   final String pesel;
-  final bool mainProfile; //TODO: change type
+  final bool mainProfile;
 
   Patient({
     required this.id,
