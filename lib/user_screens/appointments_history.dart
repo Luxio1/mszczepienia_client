@@ -28,9 +28,9 @@ class AppointmentsHistory extends StatefulWidget {
 
 class _AppointmentsHistoryState extends State<AppointmentsHistory> {
 
-
-  List<Visit> _visits = [];
-  ValueNotifier<List<Visit>> _visitsNotifier = ValueNotifier([]);
+  ValueNotifier<List<Visit>> _cancelledVisitsNotifier = ValueNotifier([]);
+  ValueNotifier<List<Visit>> _missedVisitsNotifier = ValueNotifier([]);
+  ValueNotifier<List<Visit>> _finishedVisitsNotifier = ValueNotifier([]);
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
             const SizedBox(height: 10.0),
             const Text("Odwołane szczepienia", style: TextStyle(color: Colors.white, fontSize: 18),),
             const SizedBox(height: 10.0),
-            visitList(VisitStatus.CANCELLED ),
+            visitList(VisitStatus.CANCELLED),
             const SizedBox(height: 10.0),
             const Text("Przegapione szczepienia", style: TextStyle(color: Colors.white, fontSize: 18),),
             const SizedBox(height: 10.0),
@@ -70,7 +70,9 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
   Widget visitList(VisitStatus status) {
     return Expanded(
       child: ValueListenableBuilder<List<Visit>> (
-        valueListenable: _visitsNotifier,
+        valueListenable: status == VisitStatus.FINISHED ? _finishedVisitsNotifier
+            : status == VisitStatus.CANCELLED ? _cancelledVisitsNotifier
+            : _missedVisitsNotifier,
         builder: (context, _visits, _) {
           return ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -120,8 +122,9 @@ class _AppointmentsHistoryState extends State<AppointmentsHistory> {
 
   Future<void> refresh() async {
     int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
-    _visits = await APIService.getVisitsWithStatus(patientId, VisitStatus.PENDING);
-    _visitsNotifier.value = _visits;
+    _finishedVisitsNotifier.value = await APIService.getVisitsWithStatus(patientId, VisitStatus.FINISHED);
+    _missedVisitsNotifier.value = await APIService.getVisitsWithStatus(patientId, VisitStatus.MISSED);
+    _cancelledVisitsNotifier.value = await APIService.getVisitsWithStatus(patientId, VisitStatus.CANCELLED);
   }
 
 }

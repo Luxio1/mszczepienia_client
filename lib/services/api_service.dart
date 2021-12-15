@@ -248,15 +248,19 @@ class APIService{
 
     final response = await http.get(Uri.parse(_base
         + "visit/history?patientId=" + patientId.toString()
-        + "&statues=" + status.toString()
+        + "&statuses=" + status.toString().split('.').last
     ),
         headers: {
           "authorization" : "Bearer " + await getAccessToken(),
         });
 
+
     if(response.statusCode == 200) {
       List<dynamic> visitsJson = json.decode(response.body);
       visits = visitsJson.map((data) => Visit.fromJson(data)).toList();
+      for(var visit in visits) {
+        print(visit.localTime.toString());
+      }
     } else {
       print(response.statusCode);
     }
@@ -268,13 +272,14 @@ class APIService{
 
   static Future<bool> cancelVisit(int visitId) async {
     //TODO: fix
-    final response = await http.put(Uri.parse(_base + "visit?visitId=" + visitId.toString()),
+    final response = await http.put(Uri.parse(_base + "visit/cancel?visitId=" + visitId.toString()),
       headers: {
-        "Content-Type": "application/json",
         "authorization": "Bearer " + await getAccessToken(),
       },
-      body: json.encode({"visitId": visitId.toString()}),
     );
+
+    print(response.body);
+    print(response.statusCode);
 
     if(response.statusCode == 200) {
       return true;
