@@ -30,6 +30,10 @@ class _YourAppointmentsState extends State<YourAppointments> {
   List<Visit> _visits = [];
   ValueNotifier<List<Visit>> _visitsNotifier = ValueNotifier([]);
 
+  @override
+  void initState() {
+    refresh();
+  }
 
   @override
   Widget build(BuildContext context) {

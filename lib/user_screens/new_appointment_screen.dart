@@ -9,27 +9,27 @@ import '../models/models.dart';
 import '../managers/managers.dart';
 
 class NewAppointmentScreen extends StatefulWidget {
-
   static MaterialPage page() {
     return MaterialPage(
         name: Pages.newAppointment,
         key: ValueKey(Pages.newAppointment),
-        child: const NewAppointmentScreen()
-    );
+        child: const NewAppointmentScreen());
   }
 
   const NewAppointmentScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState()  => _NewAppointmentState();
+  State<StatefulWidget> createState() => _NewAppointmentState();
 }
 
 class _NewAppointmentState extends State<NewAppointmentScreen> {
-
   final TextEditingController _cityFieldController = TextEditingController();
   final TextEditingController _placeFieldController = TextEditingController();
   final TextEditingController _diseaseFieldController = TextEditingController();
-  final TextEditingController _manufacturerFieldController = TextEditingController();
+  final TextEditingController _manufacturerFieldController =
+      TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   int _selectedCityId = 0;
   int _selectedPlaceId = 0;
@@ -57,116 +57,140 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: MyColors.blue,
       body: SingleChildScrollView(
-        reverse: true,
+          reverse: true,
           child: Form(
-              child: Padding(padding: EdgeInsets.all(32.0),
-                child: Column (
-                  children: <Widget>[
-                    const SizedBox(height: 20),
-                    const Text('Na co chcesz się zaszczepić?', style: TextStyle(color: Colors.white),),
-                    const SizedBox(height: 10),
-                    diseaseField(),
-                    const SizedBox(height: 20),
-                    const Text('Wybierz producenta', style: TextStyle(color: Colors.white),),
-                    const SizedBox(height: 10),
-                    manufacturerField(),
-                    const SizedBox(height: 20),
-                    const Text('Wprowadź miasto', style: TextStyle(color: Colors.white),),
-                    const SizedBox(height: 10),
-                    cityField(),
-                    const SizedBox(height: 20),
-                    const Text('Wybierz placówke', style: TextStyle(color: Colors.white),),
-                    const SizedBox(height: 10),
-                    placeField(),
-                    const SizedBox(height: 20),
-                    goToDatesButton(),
-                  ],
-                ),
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Na co chcesz się zaszczepić?',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(height: 10),
+                  diseaseField(),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Wybierz producenta',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(height: 10),
+                  manufacturerField(),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Wprowadź miasto',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(height: 10),
+                  cityField(),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Wybierz placówke',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(height: 10),
+                  placeField(),
+                  const SizedBox(height: 20),
+                  goToDatesButton(),
+                ],
               ),
-          )
-    ),
+            ),
+          )),
     );
   }
 
   Widget diseaseField() {
-    return TypeAheadField(
+    return TypeAheadFormField(
       textFieldConfiguration: TextFieldConfiguration(
         controller: _diseaseFieldController,
         decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18.0),
-
             ),
             labelText: 'Choroba',
             fillColor: Colors.white,
             filled: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-        ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
       ),
       suggestionsCallback: (String pattern) async {
         String _enteredDisease = _diseaseFieldController.text;
-        List<Disease> diseases = await APIService.getDiseaseSuggestions(_enteredDisease);
+        List<Disease> diseases =
+            await APIService.getDiseaseSuggestions(_enteredDisease);
 
         return diseases;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Wybierz chorobę";
+        }
       },
       itemBuilder: (context, Disease suggestion) {
         return ListTile(
           title: Text(suggestion.name),
         );
-      }, onSuggestionSelected: (Disease suggestion) async {
-      _selectedDiseaseId = suggestion.id;
-      _diseaseFieldController.text = suggestion.name;
-      _manufacutrers = await APIService.getManufacturerSuggestions(_selectedDiseaseId);
-    },
+      },
+      onSuggestionSelected: (Disease suggestion) async {
+        _selectedDiseaseId = suggestion.id;
+        _diseaseFieldController.text = suggestion.name;
+        _manufacutrers =
+            await APIService.getManufacturerSuggestions(_selectedDiseaseId);
+      },
     );
   }
 
   Widget manufacturerField() {
-    return TypeAheadField(
+    return TypeAheadFormField(
       textFieldConfiguration: TextFieldConfiguration(
         controller: _manufacturerFieldController,
         decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18.0),
-
             ),
             labelText: 'Producent',
             fillColor: Colors.white,
             filled: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-        ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
       ),
       suggestionsCallback: (String pattern) {
         return _manufacutrers;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Wybierz producenta";
+        }
       },
       itemBuilder: (context, Manufacturer suggestion) {
         return ListTile(
           title: Text(suggestion.name),
         );
-      }, onSuggestionSelected: (Manufacturer suggestion) {
-      _selectedVaccineId = suggestion.id;
-      _manufacturerFieldController.text = suggestion.name;
-    },
+      },
+      onSuggestionSelected: (Manufacturer suggestion) {
+        _selectedVaccineId = suggestion.id;
+        _manufacturerFieldController.text = suggestion.name;
+      },
     );
   }
 
   Widget cityField() {
-    return TypeAheadField(
+    return TypeAheadFormField(
       textFieldConfiguration: TextFieldConfiguration(
         controller: _cityFieldController,
         decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18.0),
-
             ),
             labelText: 'Wprowadź miasto',
             fillColor: Colors.white,
             filled: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-        ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
       ),
       suggestionsCallback: (String pattern) async {
         String _enteredCity = _cityFieldController.text;
@@ -174,46 +198,57 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
 
         return cities;
       },
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Wybierz miasto";
+        }
+      },
       itemBuilder: (context, City suggestion) {
         return ListTile(
           title: Text(suggestion.name),
         );
-      }, onSuggestionSelected: (City suggestion) async {
-      _selectedCityId = suggestion.id;
-      _cityFieldController.text = suggestion.name;
-      _places = await APIService.getPlacesSuggestions(_selectedCityId);
-      _placeFieldController.clear();
-    },
+      },
+      onSuggestionSelected: (City suggestion) async {
+        _selectedCityId = suggestion.id;
+        _cityFieldController.text = suggestion.name;
+        _places = await APIService.getPlacesSuggestions(_selectedCityId);
+        _placeFieldController.clear();
+      },
     );
   }
 
   Widget placeField() {
-    return TypeAheadField(
+    return TypeAheadFormField(
       textFieldConfiguration: TextFieldConfiguration(
         controller: _placeFieldController,
         decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18.0),
-
             ),
             labelText: 'Wybierz placówke',
             fillColor: Colors.white,
             filled: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20)
-        ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
       ),
       suggestionsCallback: (String pattern) {
         return _places;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Wybierz placówkę";
+        }
       },
       itemBuilder: (context, Place suggestion) {
         return ListTile(
           title: Text(suggestion.name),
         );
-      }, onSuggestionSelected: (Place suggestion) {
-      _selectedPlaceId = suggestion.id;
-      _placeFieldController.text = suggestion.name;
-    },
+      },
+      onSuggestionSelected: (Place suggestion) {
+        _selectedPlaceId = suggestion.id;
+        _placeFieldController.text = suggestion.name;
+      },
     );
   }
 
@@ -222,16 +257,13 @@ class _NewAppointmentState extends State<NewAppointmentScreen> {
         style: ElevatedButton.styleFrom(
             primary: Colors.white24,
             padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-            shape: const StadiumBorder()
-        ),
-        onPressed: ()  async {
-          //TODO: Check if fields are completeduser@
-          Provider.of<VisitsManager>(context, listen: false).goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
-
-
-          //APIService.getEventsMap(DateTime.now(), DateTime.now().add(Duration(days:14)), 1, 1);
+            shape: const StadiumBorder()),
+        onPressed: () async {
+          if(_formKey.currentState!.validate()){
+            Provider.of<VisitsManager>(context, listen: false)
+                .goToDatesScreen(_selectedPlaceId, _selectedVaccineId);
+          }
         },
-        child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14))
-    );
+        child: const Text("Zobacz terminy", style: TextStyle(fontSize: 14)));
   }
 }
