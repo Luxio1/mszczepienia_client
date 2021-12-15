@@ -41,6 +41,7 @@ class AppStateManager extends ChangeNotifier {
   }
 
   void logout() {
+
     _initialized = false;
     _selectedTab = 0;
 

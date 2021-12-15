@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mszczepienia_client/admin_screens/admin_home.dart';
+import 'package:mszczepienia_client/admin_screens/home.dart';
 import 'package:provider/provider.dart';
 import '../helpers/mycolors.dart';
 

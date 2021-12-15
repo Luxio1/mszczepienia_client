@@ -16,9 +16,122 @@ class ParientList extends StatelessWidget {
         backgroundColor: MyColors.blue,
         elevation: 0,
       ),
-      body: Center(
-
-      ),
+      body: ListView(
+        children: const <Widget>[
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Parker Clayton'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Brooklyn Bell'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Domenic Kelly'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Denny Brown'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Paula Watson'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Marigold Martin'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Mark Mason'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Parker Clayton'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Brooklyn Bell'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Domenic Kelly'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Denny Brown'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Paula Watson'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Marigold Martin'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.account_circle, size: 42.0),
+              title: Text('Mark Mason'),
+              subtitle: Text('93093073927'),
+              trailing: Icon(Icons.more_vert),
+            ),
+          ),
+        ],
+      )
     );
   }
 }

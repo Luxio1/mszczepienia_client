@@ -8,4 +8,5 @@ class Pages {
   static String newAppointment = '/new_appointment';
   static String newAppointmentDates = '/new_appointment_dates';
   static String appointmentsHistory = '/history';
+  static String moderator = '/moderator';
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mszczepienia_client/admin_screens/home.dart';
+import 'package:mszczepienia_client/admin_screens/profile_screen_moderator.dart';
 import '../models/models.dart';
 import '../user_screens/screens.dart';
 import '../managers/managers.dart';
@@ -41,12 +43,18 @@ class AppRouter extends RouterDelegate
       key: navigatorKey,
       onPopPage: _handlePopPage,
       pages: [
+
         //appStateManager
         if(!appStateManager.isInitialized) SplashScreen.page(),
         if(appStateManager.isInitialized && !profileManager.isLoggedIn) LoginPage.page(),
-        if(appStateManager.isInitialized && profileManager.isLoggedIn) Home.page(appStateManager.getSelectedTab),
+
+        if(appStateManager.isInitialized && profileManager.isLoggedIn && !profileManager.isModerator) Home.page(appStateManager.getSelectedTab),
+
+
 
         //profileManager
+        if(appStateManager.isInitialized && profileManager.isModerator && profileManager.isLoggedIn) HomeAdmin.page(0),
+        if(profileManager.didSelectModerator) ProfileScreenModerator.page(),
         if(profileManager.didSelectUser) ProfileScreen.page(profileManager.getProfile),
 
         //registrationManager

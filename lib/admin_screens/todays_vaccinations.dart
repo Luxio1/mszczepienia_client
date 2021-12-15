@@ -16,9 +16,75 @@ class TodaysVaccinations extends StatelessWidget {
         backgroundColor: MyColors.blue,
         elevation: 0,
       ),
-      body: Center(
+      body: ListView(
+          children: const <Widget>[
+          Card(
+            child: ListTile(
+              leading: Text('08:30', style: TextStyle(fontSize: 30.0)),
+              title: Text('Parker Clayton'),
+              subtitle: Text(
+                  '1 dawka | COVID-19 | Moderna'
+              ),
+              trailing: Icon(
+                Icons.cancel,
+              ),
 
-      ),
+            ),
+          ),
+            Card(
+              child: ListTile(
+                leading: Text('08:45', style: TextStyle(fontSize: 30.0)),
+                title: Text('Brooklyn Bell'),
+                subtitle: Text(
+                    '1 dawka | COVID-19 | Moderna'
+                ),
+                trailing: Icon(
+                  Icons.cancel,
+                ),
+
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Text('09:00', style: TextStyle(fontSize: 30.0)),
+                title: Text('Parker Clayton'),
+                subtitle: Text(
+                    '1 dawka | COVID-19 | Moderna'
+                ),
+                trailing: Icon(
+                  Icons.cancel,
+                ),
+
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Text('12:00', style: TextStyle(fontSize: 30.0)),
+                title: Text('Domenic Kelly'),
+                subtitle: Text(
+                    '1 dawka | COVID-19 | Moderna'
+                ),
+                trailing: Icon(
+                  Icons.cancel,
+                ),
+
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: Text('12:30', style: TextStyle(fontSize: 30.0)),
+                title: Text('Denny Brown'),
+                subtitle: Text(
+                    '1 dawka | COVID-19 | Moderna'
+                ),
+                trailing: Icon(
+                  Icons.cancel,
+                ),
+
+              ),
+            ),
+      ]
+    ),
     );
   }
 }

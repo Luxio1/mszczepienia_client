@@ -16,9 +16,28 @@ class FacilityData extends StatelessWidget {
         backgroundColor: MyColors.blue,
         elevation: 0,
       ),
-      body: Center(
+      body: ListView(
+          children: const <Widget>[
 
-      ),
+            Card(
+              margin: EdgeInsets.all(20),
+              child: Padding(padding: EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text('Facility Name (ID: 0001)'),
+                  subtitle: Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Users: 31\nAddress: Example Address 101\nActive: Yes"),
+                  ),
+                  isThreeLine: true,
+                ),
+              )
+
+
+            ),
+
+
+      ]
+      )
     );
   }
 }
