@@ -258,9 +258,6 @@ class APIService{
     if(response.statusCode == 200) {
       List<dynamic> visitsJson = json.decode(response.body);
       visits = visitsJson.map((data) => Visit.fromJson(data)).toList();
-      for(var visit in visits) {
-        print(visit.localTime.toString());
-      }
     } else {
       print(response.statusCode);
     }
@@ -271,15 +268,12 @@ class APIService{
 
 
   static Future<bool> cancelVisit(int visitId) async {
-    //TODO: fix
     final response = await http.put(Uri.parse(_base + "visit/cancel?visitId=" + visitId.toString()),
       headers: {
         "authorization": "Bearer " + await getAccessToken(),
       },
     );
 
-    print(response.body);
-    print(response.statusCode);
 
     if(response.statusCode == 200) {
       return true;

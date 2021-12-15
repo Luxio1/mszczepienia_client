@@ -74,7 +74,6 @@ class _YourAppointmentsState extends State<YourAppointments> {
                           ElevatedButton.styleFrom(primary: Colors.redAccent),
                       child: const Icon(Icons.cancel),
                       onPressed: () async {
-                        print(_visits[index].id);
                         bool isCancelled =
                             await APIService.cancelVisit(_visits[index].id);
                         if (isCancelled) {
