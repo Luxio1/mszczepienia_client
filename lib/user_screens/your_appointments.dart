@@ -75,6 +75,13 @@ class _YourAppointmentsState extends State<YourAppointments> {
                     color: Colors.white,
                   ),
                   child: ListTile(
+                    trailing: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+                      child: const Icon(Icons.cancel),
+                    onPressed: () async {
+                        //TODO: fix
+                        await APIService.cancelVisit(_visits[index].id);
+                    },),
                     title: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,12 +110,6 @@ class _YourAppointmentsState extends State<YourAppointments> {
     );
   }
 
-  Widget noVisits() {
-    return const Text(
-      "Nie masz umówionych szczepień",
-      style: TextStyle(color: Colors.white));
-  }
-
   Widget addButton() {
     return Container(
       padding: const EdgeInsets.only(right: 16.0, bottom: 16.0),
@@ -133,7 +134,7 @@ class _YourAppointmentsState extends State<YourAppointments> {
 
   Future<void> refresh() async {
     int patientId = Provider.of<ProfileManager>(context, listen: false).getProfile.getMainPatient.id;
-    _visits = await APIService.getPendingVisits(patientId);
+    _visits = await APIService.getVisitsWithStatus(patientId, VisitStatus.PENDING);
     _visitsNotifier.value = _visits;
   }
 

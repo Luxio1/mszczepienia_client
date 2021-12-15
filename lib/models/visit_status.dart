@@ -1,6 +1,6 @@
 enum VisitStatus {
-  pending,
-  finished,
-  missed,
-  cancelled
+  PENDING,
+  FINISHED,
+  MISSED,
+  CANCELLED
 }

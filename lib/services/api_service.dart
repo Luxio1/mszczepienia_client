@@ -246,25 +246,47 @@ class APIService{
     return responseCode; //add other response codes
   }
 
-  static Future<List<Visit>> getPendingVisits(int patientId) async {
+
+  static Future<List<Visit>> getVisitsWithStatus(int patientId, VisitStatus status) async {
     int responseCode;
     List<Visit> visits = [];
 
-    final response = await http.get(Uri.parse(_base + "visit/history?patientId=" + patientId.toString()),
-    headers: {
-      "authorization" : "Bearer " + await getAccessToken(),
-    });
+    final response = await http.get(Uri.parse(_base
+        + "visit/history?patientId=" + patientId.toString()
+        + "&statues=" + status.toString()
+    ),
+        headers: {
+          "authorization" : "Bearer " + await getAccessToken(),
+        });
 
     if(response.statusCode == 200) {
-
       List<dynamic> visitsJson = json.decode(response.body);
-
       visits = visitsJson.map((data) => Visit.fromJson(data)).toList();
     } else {
       print(response.statusCode);
     }
 
     return visits;
+  }
+
+
+
+  static Future<bool> cancelVisit(int visitId) async {
+    //TODO: fix
+    final response = await http.put(Uri.parse(_base + "visit?visitId=" + visitId.toString()),
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": "Bearer " + await getAccessToken(),
+      },
+      body: json.encode({"visitId": visitId.toString()}),
+    );
+
+    if(response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
 }
