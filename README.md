@@ -2,7 +2,7 @@
 
 mSzczepienia client is flutter app which helps you to book your appointment to get vaccinated.
 
-![Screenshot_1640202767](https://user-images.githubusercontent.com/58406847/156940213-44f166e3-ae83-49e6-b911-03edb4b08025.png)
+![Screenshot_1640202767](https://user-images.githubusercontent.com/58406847/156940213-44f166e3-ae83-49e6-b911-03edb4b08025.png | width=250)
 ![Screenshot_1640202802](https://user-images.githubusercontent.com/58406847/156940221-4fc399c6-0b9c-4093-a88d-22aa7fb71a58.png)
 ![Screenshot_1640202814](https://user-images.githubusercontent.com/58406847/156940223-317249fa-d1f7-4465-8b0d-2255fd7f2ff6.png)
 ![Screenshot_1640202818](https://user-images.githubusercontent.com/58406847/156940227-1a51cb78-fa21-4683-ad54-e85e3acabfb4.png)
